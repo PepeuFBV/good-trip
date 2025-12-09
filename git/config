@@ -1,0 +1,35 @@
+[user]
+    name = <my-name>
+    email = <my-email>
+    signingkey = <my-gpg-key-id>
+
+[core]
+    compression = 1
+    preloadindex = true
+
+[commit]
+    gpgsign = true
+
+[init]
+    defaultBranch = main
+
+[push]
+    default = current
+    autoSetupRemote = true
+    followTags = true
+
+[pull]
+    default = current
+    rebase = true
+
+[rebase]
+    autoStash = true
+    missingCommitsCheck = warn
+
+[color]
+    ui = auto
+
+[status]
+    branch = true
+    showStash = true
+    showUntrackedFiles = all
