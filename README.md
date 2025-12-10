@@ -14,8 +14,9 @@ cd ~/dotfiles
 
 ## Included Configurations
 
--   `.zshrc` - Zsh shell configuration
+-   `.zshrc` - Zsh shell configurations
 -   `config` - Git configuration file
+-   `*.aliases` - Various command aliases
 
 ## Contributing
 
