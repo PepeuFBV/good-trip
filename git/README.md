@@ -1,4 +1,3 @@
-````markdown
 # Git Configuration
 
 This directory contains a curated `git` configuration intended to be used as a personal global Git config. It centralizes useful defaults (push/pull behavior, rebase and pull settings), commit signing, color and status output, and other niceties to make Git workflows consistent across machines.
@@ -65,4 +64,3 @@ git config --global user.signingkey <YOUR_KEY_ID>
 ```
 
 -   If you use multiple machines, symlink the config from a dotfiles manager (this repo) so updates propagate easily.
-````
