@@ -15,6 +15,7 @@ cd ~/dotfiles
 ## Included Configurations
 
 -   `.zshrc` - Zsh shell configuration
+-   `config` - Git configuration file
 
 ## Contributing
 
