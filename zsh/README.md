@@ -26,7 +26,7 @@ This ZSH configuration is designed to be modular, fast, and developer-friendly. 
 
 1. Install a ZSH runtime if you don't have it (`zsh`).
 
-2. Install `oh-my-zsh` and `powerlevel10k` according to their official instructions.
+2. Install `oh-my-zsh` and `powerlevel10k` according to their official instructions (git clone the repos).
 
 3. Clone or symlink this `zsh` folder into your home configuration, for example:
 
