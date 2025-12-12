@@ -10,7 +10,7 @@ This ZSH configuration is designed to be modular, fast, and developer-friendly. 
 
 -   Oh My Zsh integration: configuration boots Oh My Zsh and makes it easy to manage themes and plugins.
 
--   Carefully selected plugins: `git`, `z` (jump around directories), `sudo`, `history`, `command-not-found`, `docker`, `docker-compose`, `npm`, `node`, `zsh-autosuggestions`, and `zsh-syntax-highlighting` to improve shell productivity.
+-   Plugins: `git`, `z` (jump around directories), `sudo`, `history`, `command-not-found`, `docker`, `docker-compose`, `npm`, `node`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, `atuin` to improve shell productivity.
 
 -   History configuration: larger history size and shared/incremental history settings (`HISTSIZE`, `SAVEHIST`, `INC_APPEND_HISTORY`, `SHARE_HISTORY`) to preserve and sync commands across sessions.
 
@@ -22,11 +22,13 @@ This ZSH configuration is designed to be modular, fast, and developer-friendly. 
 
 -   Powerlevel10k config loader: automatically sources `~/.p10k.zsh` if present so prompt customizations are applied.
 
+-   Atuin shell history integration: integrates Atuin for enhanced shell history management.
+
 ## Installation / Usage
 
 1. Install a ZSH runtime if you don't have it (`zsh`).
 
-2. Install `oh-my-zsh` and `powerlevel10k` according to their official instructions (git clone the repos).
+2. Install `oh-my-zsh`, `powerlevel10k` and `atuin` according to their official instructions (git clone the repos).
 
 3. Clone or symlink this `zsh` folder into your home configuration, for example:
 
