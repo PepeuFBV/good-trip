@@ -57,3 +57,7 @@ export ATUIN_NOBIND="true"
 
 # Atuin ZSH integration
 eval "$(atuin init zsh)"
+
+chpwd() {
+  ls
+}

@@ -24,6 +24,8 @@ This ZSH configuration is designed to be modular, fast, and developer-friendly. 
 
 -   Atuin shell history integration: integrates Atuin for enhanced shell history management.
 
+-   Auto-show directory contents on `cd`: lists files automatically when changing directories.
+
 ## Installation / Usage
 
 1. Install a ZSH runtime if you don't have it (`zsh`).
