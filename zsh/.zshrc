@@ -61,3 +61,29 @@ eval "$(atuin init zsh)"
 chpwd() {
   ls
 }
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # this loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # this loads nvm >
+
+autoload -U add-zsh-hook
+
+load-nvmrc() {
+  local node_version
+  local nvmrc_path
+
+  nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    node_version="$(cat "$nvmrc_path")"
+
+    if [ "$(nvm version "$node_version")" = "N/A" ]; then
+      nvm install "$node_version"
+    fi
+
+    nvm use "$node_version" > /dev/null
+  fi
+}
+
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc

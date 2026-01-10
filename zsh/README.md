@@ -26,6 +26,8 @@ This ZSH configuration is designed to be modular, fast, and developer-friendly. 
 
 -   Auto-show directory contents on `cd`: lists files automatically when changing directories.
 
+-   NVM support: automatically loads Node versions specified in `.nvmrc` files when changing directories.
+
 ## Installation / Usage
 
 1. Install a ZSH runtime if you don't have it (`zsh`).
@@ -52,3 +54,33 @@ ln -s "$PWD/zsh/.zshrc" "$HOME/.zshrc"
 -   Recommended fonts: use a Nerd Font / Powerline-patched font for Powerlevel10k icons and glyphs to render correctly.
 -   Customize aliases: add your personal aliases into `~/.shell/aliases/*.aliases` — files are loaded automatically if readable.
 -   Keep `~/.p10k.zsh` in your home directory if you want to store prompt preferences separately from this repo.
+
+## NVM support (auto-loading `.nvmrc`)
+
+This ZSH configuration includes support for Node Version Manager (nvm) and will automatically load the Node version specified in a project's `.nvmrc` when you change into that directory.
+
+-   It sets `NVM_DIR` and sources `nvm.sh` and the `bash_completion` script if available.
+-   A `load-nvmrc` function is defined that looks for an `.nvmrc` (via `nvm_find_nvmrc`). If it finds one, it will:
+    -   read the version from the file,
+    -   install the version with `nvm install` if it's not present,
+    -   switch to the version with `nvm use` (silently).
+-   The function is registered with `add-zsh-hook chpwd` so it runs automatically on `cd` and it's invoked once at shell startup.
+
+Usage:
+
+-   Create a `.nvmrc` at the repository root containing a node version string, for example:
+
+```
+14
+# or a specific version
+v14.20.1
+# or an alias like
+lts/*
+```
+
+-   When you `cd` into the project directory the shell will automatically switch to the node version specified in `.nvmrc`. If the version isn't installed, it will be installed automatically.
+
+Disable or override:
+
+-   To disable automatic switching, remove or comment out the `add-zsh-hook chpwd load-nvmrc` line in your `~/.zshrc`.
+-   You can still manually switch versions with `nvm use <version>` or trigger the loader manually with `load-nvmrc`.
