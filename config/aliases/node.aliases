@@ -1,0 +1,24 @@
+# Node / NPM
+alias n='npm'
+alias ni='npm install'
+alias nid='npm install -D'
+alias nig='npm install -g'
+alias nr='npm run'
+alias ns='npm start'
+alias nt='npm test'
+alias nlg='npm list -g --depth=0'
+alias nout='npm outdated'
+alias nup='npm update'
+alias npx='npx'
+
+# pnpm (if preferred)
+alias pn='pnpm'
+alias pni='pnpm install'
+alias pnr='pnpm run'
+alias pns='pnpm start'
+
+# Yarn
+alias y='yarn'
+alias yi='yarn install'
+alias yr='yarn run'
+alias ys='yarn start'

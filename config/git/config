@@ -1,0 +1,59 @@
+[user]
+    name = <your-name>
+    email = <your-email>
+    signingkey = <your-gpg-key-id>
+
+[core]
+    compression = 1
+    preloadindex = true
+    autocrlf = input
+
+[commit]
+    gpgsign = true
+
+[init]
+    defaultBranch = main
+
+[push]
+    default = current
+    autoSetupRemote = true
+    followTags = true
+
+[pull]
+    default = current
+    rebase = true
+
+[rebase]
+    autoStash = true
+    missingCommitsCheck = warn
+
+[color]
+    ui = auto
+
+[status]
+    branch = true
+    showStash = true
+    showUntrackedFiles = all
+
+[fetch]
+    prune = true
+
+[diff]
+    algorithm = histogram
+    colorMoved = zebra
+
+[merge]
+    conflictstyle = zdiff3
+
+[log]
+    abbrevCommit = true
+    date = relative
+
+[alias]
+    lg  = log --oneline --graph --decorate --all
+    st  = status -sb
+    co  = checkout
+    br  = branch
+    undo = reset --soft HEAD~1
+    wip  = !git add -A && git commit -m 'chore: wip [skip ci]'
+    unwip = reset HEAD~1 --mixed
