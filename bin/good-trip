@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+# =============================================================================
+# good-trip — bin/good-trip
+# Main CLI entrypoint
+# =============================================================================
+set -euo pipefail
+
+GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+log()     { echo -e "${BLUE}[good-trip]${NC} $*"; }
+success() { echo -e "${GREEN}[good-trip]${NC} ✓ $*"; }
+warn()    { echo -e "${YELLOW}[good-trip]${NC} ⚠ $*"; }
+error()   { echo -e "${RED}[good-trip]${NC} ✗ $*" >&2; }
+
+version() {
+  cat "${GOOD_TRIP_DIR}/version.txt" 2>/dev/null | tr -d '[:space:]' || echo "unknown"
+}
+
+cmd_help() {
+  echo ""
+  echo -e "${BOLD}good-trip${NC} — dotfiles as a product"
+  echo ""
+  echo -e "${BOLD}Usage:${NC} good-trip <command> [options]"
+  echo ""
+  echo -e "${BOLD}Commands:${NC}"
+  echo "  update [--yes] [--check] [--silent]   Check and apply updates"
+  echo "  version                               Show installed version"
+  echo "  status                                Show current state"
+  echo "  symlinks [--dry-run]                  Re-apply symlinks"
+  echo "  help                                  Show this help"
+  echo ""
+  echo -e "${BOLD}Examples:${NC}"
+  echo "  good-trip update          # Interactive update"
+  echo "  good-trip update --yes    # Auto-apply update"
+  echo "  good-trip update --check  # Only check, never apply"
+  echo "  good-trip symlinks        # Re-apply symlinks (e.g. after adding a file)"
+  echo ""
+}
+
+cmd_version() {
+  echo "good-trip $(version)"
+}
+
+cmd_status() {
+  local ver
+  ver="$(version)"
+  log "Installed version : ${BOLD}${ver}${NC}"
+  log "Install directory : ${GOOD_TRIP_DIR}"
+  log "Symlinks:"
+
+  local -A targets=(
+    [~/.zshrc]="${GOOD_TRIP_DIR}/config/zsh/.zshrc"
+    [~/.gitconfig]="${GOOD_TRIP_DIR}/config/git/config"
+    [~/.shell/aliases]="${GOOD_TRIP_DIR}/config/aliases"
+  )
+
+  for link in "${!targets[@]}"; do
+    local expanded="${link/#\~/$HOME}"
+    if [[ -L "$expanded" ]]; then
+      echo -e "    ${GREEN}✓${NC} ${link} → $(readlink "$expanded")"
+    else
+      echo -e "    ${RED}✗${NC} ${link} (not linked)"
+    fi
+  done
+}
+
+cmd_update() {
+  bash "${GOOD_TRIP_DIR}/update.sh" "$@"
+}
+
+cmd_symlinks() {
+  bash "${GOOD_TRIP_DIR}/scripts/symlinks.sh" "$@"
+}
+
+# ── Dispatch ──────────────────────────────────────────────────────────────────
+main() {
+  local cmd="${1:-help}"
+  shift || true
+
+  case "$cmd" in
+    help|--help|-h)  cmd_help ;;
+    version|--version|-v) cmd_version ;;
+    status)          cmd_status ;;
+    update)          cmd_update "$@" ;;
+    symlinks)        cmd_symlinks "$@" ;;
+    *)
+      error "Unknown command: ${cmd}"
+      cmd_help
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"
