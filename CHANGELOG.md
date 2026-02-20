@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/PepeuFBV/good-trip/compare/v1.1.0...v1.2.0) (2026-02-20)
+
+
+### Features
+
+* **bootstrap:** add python, pip, and venv support ([25d13bc](https://github.com/PepeuFBV/good-trip/commit/25d13bc617dcdd374a1b30e37fd2ef9d6d1d0ced))
+
 # [1.1.0](https://github.com/PepeuFBV/good-trip/compare/v1.0.0...v1.1.0) (2026-02-20)
 
 
