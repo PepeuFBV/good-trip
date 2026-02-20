@@ -9,13 +9,15 @@ alias dexec='docker exec -it'
 alias dlogs='docker logs -f'
 alias dinspect='docker inspect'
 
-# Docker Compose
-alias dc='docker-compose'
-alias dcu='docker-compose up -d'
-alias dcd='docker-compose down'
-alias dcb='docker-compose build'
-alias dcl='docker-compose logs -f'
-alias dcr='docker-compose restart'
+# Docker Compose (plugin — 'docker compose' with space)
+alias dc='docker compose'
+alias dcu='docker compose up -d'
+alias dcd='docker compose down'
+alias dcb='docker compose build'
+alias dcl='docker compose logs -f'
+alias dcr='docker compose restart'
+alias dcp='docker compose pull'
+alias dcps='docker compose ps'
 
 # Destructive Docker Cleanup (careful!)
 alias dstop='docker stop $(docker ps -a -q)'
