@@ -33,6 +33,9 @@ plugins=(
   docker-compose
   npm
   node
+  python
+  pip
+  virtualenv
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
@@ -81,6 +84,32 @@ load-nvmrc() {
 
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
+
+# ── Python / venv auto-activation ────────────────────────────────────────────
+# Automatically activate .venv (or venv/env) when entering a directory that has one
+_gt_venv_autoactivate() {
+  local venv_dir
+  for d in .venv venv env; do
+    if [[ -f "${PWD}/${d}/bin/activate" ]]; then
+      venv_dir="${PWD}/${d}"
+      break
+    fi
+  done
+
+  if [[ -n "${venv_dir:-}" ]]; then
+    # Only activate if not already in this venv
+    if [[ "${VIRTUAL_ENV:-}" != "$venv_dir" ]]; then
+      source "${venv_dir}/bin/activate"
+    fi
+  elif [[ -n "${VIRTUAL_ENV:-}" ]]; then
+    # Deactivate if we've left the venv's project directory
+    if [[ "$PWD" != "${VIRTUAL_ENV%/*}"* ]]; then
+      deactivate
+    fi
+  fi
+}
+add-zsh-hook chpwd _gt_venv_autoactivate
+_gt_venv_autoactivate  # run on shell start
 
 # ── SDKMAN ────────────────────────────────────────────────────────────────────
 export SDKMAN_DIR="${SDKMAN_DIR:-$HOME/.sdkman}"

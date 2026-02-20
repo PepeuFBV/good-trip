@@ -1,0 +1,76 @@
+# =============================================================================
+# good-trip — config/aliases/python.aliases
+# Python 3, pip, and venv convenience aliases
+# =============================================================================
+
+# ── Python ────────────────────────────────────────────────────────────────────
+alias py='python3'
+alias py2='python2'
+alias python='python3'
+alias pip='pip3'
+
+# ── pip ───────────────────────────────────────────────────────────────────────
+alias pi='pip install'
+alias piu='pip install --upgrade'
+alias pir='pip install -r requirements.txt'
+alias pif='pip freeze'
+alias pifr='pip freeze > requirements.txt'
+alias pis='pip show'
+alias pil='pip list'
+alias piun='pip uninstall'
+alias piupgrade='pip list --outdated --format=freeze | grep -v "^\-e" | cut -d= -f1 | xargs -n1 pip install --upgrade'
+
+# ── venv ──────────────────────────────────────────────────────────────────────
+# Create a new virtual environment (default name: .venv)
+venv() {
+  local name="${1:-.venv}"
+  python3 -m venv "$name"
+  echo "Virtual environment created: ${name}"
+  echo "Activate with: source ${name}/bin/activate"
+}
+
+# Activate virtual environment (looks for .venv, venv, env in current dir)
+activate() {
+  local candidates=(".venv/bin/activate" "venv/bin/activate" "env/bin/activate")
+  for c in "${candidates[@]}"; do
+    if [[ -f "$c" ]]; then
+      # shellcheck disable=SC1090
+      source "$c"
+      echo "Activated: ${c%/bin/activate}"
+      return 0
+    fi
+  done
+  echo "No virtual environment found (.venv, venv, or env)"
+  return 1
+}
+
+# Deactivate current venv
+alias deactivate='deactivate 2>/dev/null || true'
+
+# Create venv and immediately activate
+mkenv() {
+  local name="${1:-.venv}"
+  python3 -m venv "$name" && source "${name}/bin/activate"
+  echo "Activated: ${name}"
+}
+
+# Remove the current directory's venv
+rmenv() {
+  local candidates=(".venv" "venv" "env")
+  for c in "${candidates[@]}"; do
+    if [[ -d "$c" ]]; then
+      rm -rf "$c"
+      echo "Removed: ${c}"
+      return 0
+    fi
+  done
+  echo "No virtual environment directory found."
+}
+
+# Show current Python / venv info
+pyinfo() {
+  echo "Python  : $(python3 --version 2>/dev/null || echo 'not found')"
+  echo "pip     : $(python3 -m pip --version 2>/dev/null | awk '{print $1, $2}' || echo 'not found')"
+  echo "venv    : ${VIRTUAL_ENV:-(none active)}"
+  echo "which   : $(command -v python3)"
+}

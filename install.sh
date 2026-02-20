@@ -54,6 +54,7 @@ COMPONENTS=(
   "install-git-gpg.sh|Git + GPG|Git config symlink and GPG signing setup|1|0"
   "install-nvm.sh|NVM|Node Version Manager with .nvmrc auto-switching|1|0"
   "install-atuin.sh|Atuin|Searchable, syncable shell history|1|0"
+  "install-python.sh|Python + pip + venv|Python 3, pip, and virtual environment support|1|0"
   "install-docker.sh|Docker + Compose|Docker Engine, Compose plugin, add user to group|0|0"
   "install-sdkman.sh|SDKMAN|SDK manager for Java, Kotlin, Scala, Groovy|0|0"
 )
