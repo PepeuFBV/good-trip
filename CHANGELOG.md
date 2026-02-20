@@ -1,3 +1,13 @@
+# [1.1.0](https://github.com/PepeuFBV/good-trip/compare/v1.0.0...v1.1.0) (2026-02-20)
+
+
+### Features
+
+* **aliases:** switch compose aliases to docker compose plugin syntax ([bb517fe](https://github.com/PepeuFBV/good-trip/commit/bb517fe432b310f4f7635d48567d2d6ffa5fe935))
+* **bootstrap:** add docker engine and compose plugin installer ([edc29b5](https://github.com/PepeuFBV/good-trip/commit/edc29b5bbbd35b7a11a6d369c4ad7fecf1892976))
+* **install:** add docker installation step ([4dcf2cd](https://github.com/PepeuFBV/good-trip/commit/4dcf2cd5e0e4050b311328f5a896554b00e5a9f4))
+* **install:** add interactive component picker to installer ([7ef29b6](https://github.com/PepeuFBV/good-trip/commit/7ef29b6bad982adfa2e69dbd93bb52e0cfe903bf))
+
 # 1.0.0 (2026-02-20)
 
 
