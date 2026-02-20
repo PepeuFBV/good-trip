@@ -193,6 +193,9 @@ BANNER
   step "Installing Atuin"
   run_bootstrap "install-atuin.sh"
 
+  step "Installing Docker + Compose plugin"
+  run_bootstrap "install-docker.sh"
+
   step "Configuring Git + GPG"
   run_bootstrap "install-git-gpg.sh"
 
