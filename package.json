@@ -1,0 +1,20 @@
+{
+  "name": "good-trip",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.8.1"
+  },
+  "lint-staged": {
+    "*.{js,ts,json,md,yml,yaml,css,scss,html}": [
+      "prettier --write"
+    ]
+  }
+}

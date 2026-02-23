@@ -39,16 +39,16 @@ want their shell environment to behave like a well-maintained software product:
 
 ## Features
 
-| Component | Details |
-|---|---|
-| **Shell** | ZSH with [Oh My Zsh](https://ohmyz.sh/), [Powerlevel10k](https://github.com/romkatv/powerlevel10k) |
+| Component   | Details                                                                                                         |
+| ----------- | --------------------------------------------------------------------------------------------------------------- |
+| **Shell**   | ZSH with [Oh My Zsh](https://ohmyz.sh/), [Powerlevel10k](https://github.com/romkatv/powerlevel10k)              |
 | **Plugins** | `git`, `z`, `sudo`, `docker`, `docker-compose`, `npm`, `node`, `zsh-autosuggestions`, `zsh-syntax-highlighting` |
-| **History** | [Atuin](https://atuin.sh/) for searchable, syncable shell history |
-| **Node.js** | [NVM](https://github.com/nvm-sh/nvm) with automatic `.nvmrc` switching |
-| **JVM** | [SDKMAN](https://sdkman.io/) for Java/Kotlin/Scala/Groovy SDK management |
-| **Git** | Opinionated config with GPG commit signing, useful aliases |
-| **Aliases** | Docker, Node/NPM/pnpm/Yarn — all in `config/aliases/` |
-| **CI/CD** | GitHub Actions + semantic-release for fully automated versioning and releases |
+| **History** | [Atuin](https://atuin.sh/) for searchable, syncable shell history                                               |
+| **Node.js** | [NVM](https://github.com/nvm-sh/nvm) with automatic `.nvmrc` switching                                          |
+| **JVM**     | [SDKMAN](https://sdkman.io/) for Java/Kotlin/Scala/Groovy SDK management                                        |
+| **Git**     | Opinionated config with GPG commit signing, useful aliases                                                      |
+| **Aliases** | Docker, Node/NPM/pnpm/Yarn — all in `config/aliases/`                                                           |
+| **CI/CD**   | GitHub Actions + semantic-release for fully automated versioning and releases                                   |
 
 ---
 
@@ -212,15 +212,15 @@ To share your prompt config across machines, add `~/.p10k.zsh` to the repo under
 2. Create a feature branch: `git checkout -b feat/my-feature`
 3. Write commits following [Conventional Commits](https://www.conventionalcommits.org/):
 
-   | Prefix | When to use | Version bump |
-   |---|---|---|
-   | `feat:` | New feature or configuration | minor |
-   | `fix:` | Bug fix | patch |
-   | `docs:` | Documentation only | — |
-   | `refactor:` | Code cleanup, no behaviour change | — |
-   | `ci:` | CI/CD changes | — |
-   | `chore:` | Maintenance | — |
-   | `feat!:` / `BREAKING CHANGE:` | Breaking change | **major** |
+   | Prefix                        | When to use                       | Version bump |
+   | ----------------------------- | --------------------------------- | ------------ |
+   | `feat:`                       | New feature or configuration      | minor        |
+   | `fix:`                        | Bug fix                           | patch        |
+   | `docs:`                       | Documentation only                | —            |
+   | `refactor:`                   | Code cleanup, no behaviour change | —            |
+   | `ci:`                         | CI/CD changes                     | —            |
+   | `chore:`                      | Maintenance                       | —            |
+   | `feat!:` / `BREAKING CHANGE:` | Breaking change                   | **major**    |
 
 4. Push and open a Pull Request (the PR template guides you through the checklist)
 5. Merging to `main` automatically creates the tag, release, and updates CHANGELOG.md

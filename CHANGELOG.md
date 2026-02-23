@@ -1,42 +1,38 @@
 # [1.2.0](https://github.com/PepeuFBV/good-trip/compare/v1.1.0...v1.2.0) (2026-02-20)
 
-
 ### Features
 
-* **bootstrap:** add python, pip, and venv support ([25d13bc](https://github.com/PepeuFBV/good-trip/commit/25d13bc617dcdd374a1b30e37fd2ef9d6d1d0ced))
+- **bootstrap:** add python, pip, and venv support ([25d13bc](https://github.com/PepeuFBV/good-trip/commit/25d13bc617dcdd374a1b30e37fd2ef9d6d1d0ced))
 
 # [1.1.0](https://github.com/PepeuFBV/good-trip/compare/v1.0.0...v1.1.0) (2026-02-20)
 
-
 ### Features
 
-* **aliases:** switch compose aliases to docker compose plugin syntax ([bb517fe](https://github.com/PepeuFBV/good-trip/commit/bb517fe432b310f4f7635d48567d2d6ffa5fe935))
-* **bootstrap:** add docker engine and compose plugin installer ([edc29b5](https://github.com/PepeuFBV/good-trip/commit/edc29b5bbbd35b7a11a6d369c4ad7fecf1892976))
-* **install:** add docker installation step ([4dcf2cd](https://github.com/PepeuFBV/good-trip/commit/4dcf2cd5e0e4050b311328f5a896554b00e5a9f4))
-* **install:** add interactive component picker to installer ([7ef29b6](https://github.com/PepeuFBV/good-trip/commit/7ef29b6bad982adfa2e69dbd93bb52e0cfe903bf))
+- **aliases:** switch compose aliases to docker compose plugin syntax ([bb517fe](https://github.com/PepeuFBV/good-trip/commit/bb517fe432b310f4f7635d48567d2d6ffa5fe935))
+- **bootstrap:** add docker engine and compose plugin installer ([edc29b5](https://github.com/PepeuFBV/good-trip/commit/edc29b5bbbd35b7a11a6d369c4ad7fecf1892976))
+- **install:** add docker installation step ([4dcf2cd](https://github.com/PepeuFBV/good-trip/commit/4dcf2cd5e0e4050b311328f5a896554b00e5a9f4))
+- **install:** add interactive component picker to installer ([7ef29b6](https://github.com/PepeuFBV/good-trip/commit/7ef29b6bad982adfa2e69dbd93bb52e0cfe903bf))
 
 # 1.0.0 (2026-02-20)
 
-
 ### Bug Fixes
 
-* correct comment for NVM bash completion loading in .zshrc ([e9d67fe](https://github.com/PepeuFBV/dotfiles/commit/e9d67fe157914248e1f6164cbebc81046b4f214a))
-
+- correct comment for NVM bash completion loading in .zshrc ([e9d67fe](https://github.com/PepeuFBV/dotfiles/commit/e9d67fe157914248e1f6164cbebc81046b4f214a))
 
 ### Features
 
-* add aliases for Docker and Node.js to streamline command-line workflows ([aa00211](https://github.com/PepeuFBV/dotfiles/commit/aa002114fdd1b7ff8377d0ab0b77fd0822fd73d3))
-* add auto-show directory contents on `cd` and update README ([3a08586](https://github.com/PepeuFBV/dotfiles/commit/3a08586ef1622f5f6210169fb0979a47c8f285f7))
-* add initial Git configuration files with user settings and usage instructions ([4582ff3](https://github.com/PepeuFBV/dotfiles/commit/4582ff3c6ffb947e51cc024536baa63fb955c54d))
-* add initial ZSH configuration and README with setup instructions ([95a64e3](https://github.com/PepeuFBV/dotfiles/commit/95a64e30c99f2e696b5129977aecb58b32c46b58))
-* add NVM support for automatic Node version loading based on .nvmrc ([446d3ca](https://github.com/PepeuFBV/dotfiles/commit/446d3cafc0b51933f591a8c36342ccbe1ce71c4d))
-* **aliases:** migrate and expand alias and git config ([36f0510](https://github.com/PepeuFBV/dotfiles/commit/36f0510bfe0a56a3354224d6e2e9a80dac3c8cb8))
-* **bootstrap:** add modular idempotent install scripts ([6349d27](https://github.com/PepeuFBV/dotfiles/commit/6349d27e4db32ae6c31b1c31176700f5c225fc0e))
-* **install:** add installer, updater, and good-trip cli ([f6ff9df](https://github.com/PepeuFBV/dotfiles/commit/f6ff9df6d854e033faea14087249dd40d6118904))
-* integrate Atuin for enhanced shell history management and update README ([dcff322](https://github.com/PepeuFBV/dotfiles/commit/dcff322a11eb7532267fa259ea861d7b9aa7b3f4))
-* update README.md with project description, installation instructions, and contribution guidelines ([d83a683](https://github.com/PepeuFBV/dotfiles/commit/d83a683fabaa30e1f8f464d0e5df60ff86708e97))
-* **update:** add symlinks, update, and version check scripts ([9110bde](https://github.com/PepeuFBV/dotfiles/commit/9110bde017f5215651b610b258a9ed387b53bee7))
-* **zsh:** add zshrc with good-trip integration and daily update check ([9fbe15d](https://github.com/PepeuFBV/dotfiles/commit/9fbe15d9e9d4b34b8de94940a510c32c7604723a))
+- add aliases for Docker and Node.js to streamline command-line workflows ([aa00211](https://github.com/PepeuFBV/dotfiles/commit/aa002114fdd1b7ff8377d0ab0b77fd0822fd73d3))
+- add auto-show directory contents on `cd` and update README ([3a08586](https://github.com/PepeuFBV/dotfiles/commit/3a08586ef1622f5f6210169fb0979a47c8f285f7))
+- add initial Git configuration files with user settings and usage instructions ([4582ff3](https://github.com/PepeuFBV/dotfiles/commit/4582ff3c6ffb947e51cc024536baa63fb955c54d))
+- add initial ZSH configuration and README with setup instructions ([95a64e3](https://github.com/PepeuFBV/dotfiles/commit/95a64e30c99f2e696b5129977aecb58b32c46b58))
+- add NVM support for automatic Node version loading based on .nvmrc ([446d3ca](https://github.com/PepeuFBV/dotfiles/commit/446d3cafc0b51933f591a8c36342ccbe1ce71c4d))
+- **aliases:** migrate and expand alias and git config ([36f0510](https://github.com/PepeuFBV/dotfiles/commit/36f0510bfe0a56a3354224d6e2e9a80dac3c8cb8))
+- **bootstrap:** add modular idempotent install scripts ([6349d27](https://github.com/PepeuFBV/dotfiles/commit/6349d27e4db32ae6c31b1c31176700f5c225fc0e))
+- **install:** add installer, updater, and good-trip cli ([f6ff9df](https://github.com/PepeuFBV/dotfiles/commit/f6ff9df6d854e033faea14087249dd40d6118904))
+- integrate Atuin for enhanced shell history management and update README ([dcff322](https://github.com/PepeuFBV/dotfiles/commit/dcff322a11eb7532267fa259ea861d7b9aa7b3f4))
+- update README.md with project description, installation instructions, and contribution guidelines ([d83a683](https://github.com/PepeuFBV/dotfiles/commit/d83a683fabaa30e1f8f464d0e5df60ff86708e97))
+- **update:** add symlinks, update, and version check scripts ([9110bde](https://github.com/PepeuFBV/dotfiles/commit/9110bde017f5215651b610b258a9ed387b53bee7))
+- **zsh:** add zshrc with good-trip integration and daily update check ([9fbe15d](https://github.com/PepeuFBV/dotfiles/commit/9fbe15d9e9d4b34b8de94940a510c32c7604723a))
 
 # Changelog
 
