@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/PepeuFBV/good-trip/compare/v1.2.0...v1.3.0) (2026-02-23)
+
+
+### Features
+
+* add configuration files for Husky and Prettier ([50ef548](https://github.com/PepeuFBV/good-trip/commit/50ef5483f0b8bc9909d16dfba80acca11b1e9a50))
+
 # [1.2.0](https://github.com/PepeuFBV/good-trip/compare/v1.1.0...v1.2.0) (2026-02-20)
 
 ### Features
