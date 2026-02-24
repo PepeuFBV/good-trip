@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/PepeuFBV/good-trip/compare/v1.4.0...v1.4.1) (2026-02-24)
+
+
+### Bug Fixes
+
+* **update:** ensure update check timestamp is recorded on exit ([45ccbea](https://github.com/PepeuFBV/good-trip/commit/45ccbea67d27067527ea4a9371ee7a098f3587ce))
+
 # [1.4.0](https://github.com/PepeuFBV/good-trip/compare/v1.3.2...v1.4.0) (2026-02-24)
 
 
