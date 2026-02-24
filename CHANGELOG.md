@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/PepeuFBV/good-trip/compare/v1.5.0...v1.6.0) (2026-02-24)
+
+
+### Features
+
+* **uninstall:** add uninstall command with interactive and non-interactive options ([7dd56c9](https://github.com/PepeuFBV/good-trip/commit/7dd56c93a0ed0185e6ace97aecde3f138b11f3ef))
+
 # [1.5.0](https://github.com/PepeuFBV/good-trip/compare/v1.4.2...v1.5.0) (2026-02-24)
 
 
