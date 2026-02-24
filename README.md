@@ -16,6 +16,7 @@
 - [Installation](#installation)
 - [Auto-update](#auto-update)
 - [CLI Reference](#cli-reference)
+- [SSH Keys](#ssh-keys)
 - [Project Structure](#project-structure)
 - [Configuration](#configuration)
 - [Contributing](#contributing)
@@ -49,6 +50,7 @@ want their shell environment to behave like a well-maintained software product:
 | **Git**     | Opinionated config with GPG commit signing, useful aliases                                                      |
 | **Aliases** | Docker, Node/NPM/pnpm/Yarn — all in `config/aliases/`                                                           |
 | **CI/CD**   | GitHub Actions + semantic-release for fully automated versioning and releases                                   |
+| **SSH**     | One-command Ed25519 key generation + GitHub account registration via REST API                                   |
 
 ---
 
@@ -128,6 +130,8 @@ Commands:
   version                               Print installed version
   status                                Show symlink and install status
   symlinks [--dry-run]                  Re-apply all managed symlinks
+  ssh-keygen [options]                  Generate an SSH key pair and print public key
+  ssh-github [options]                  Register an SSH key with your GitHub account
   help                                  Show help
 ```
 
@@ -138,6 +142,8 @@ good-trip version
 good-trip status
 good-trip symlinks --dry-run
 good-trip update --check
+good-trip ssh-keygen --name id_ed25519
+good-trip ssh-github --list
 ```
 
 Short alias `gt` is available after installation:
@@ -145,6 +151,89 @@ Short alias `gt` is available after installation:
 ```sh
 gt update
 gt status
+gt ssh-keygen --name id_ed25519
+gt ssh-github
+```
+
+---
+
+## SSH Keys
+
+good-trip provides two commands for SSH key management, intended to be run on a
+fresh server or any machine where you need quick access setup.
+
+### Generate a key (`ssh-keygen`)
+
+Creates an Ed25519 key pair in `~/.ssh/` and prints the public key so you can
+copy it wherever needed.
+
+```sh
+# Basic — generate and print public key
+good-trip ssh-keygen --name id_ed25519
+
+# With a custom comment (e.g. your email)
+good-trip ssh-keygen --name id_ed25519 --comment you@example.com
+
+# Generate AND add to ~/.ssh/authorized_keys (allows incoming SSH with this key)
+good-trip ssh-keygen --name id_ed25519 --authorized-keys
+
+# Custom file name
+good-trip ssh-keygen --name deploy_key
+
+# Preview what would happen without writing anything
+good-trip ssh-keygen --name deploy_key --dry-run
+```
+
+| Option | Description |
+| --- | --- |
+| `--comment <text>` | Key comment (default: `user@hostname`) |
+| `--name <filename>` | Filename in `~/.ssh/` (required) |
+| `--authorized-keys` | Append public key to `~/.ssh/authorized_keys` |
+| `--dry-run` | Print what would happen, write nothing |
+
+### Register key with GitHub (`ssh-github`)
+
+Uses the GitHub REST API to add an SSH public key to your account.
+Requires a **Personal Access Token** with the `write:public_key` scope.
+
+```sh
+# Add default key (~/.ssh/id_ed25519.pub) — will prompt for token
+good-trip ssh-github
+
+# Pass the token inline (or set $GITHUB_TOKEN in your environment)
+good-trip ssh-github --token ghp_xxxxxxxxxxxx
+
+# Add a specific public key with a custom title
+good-trip ssh-github --key ~/.ssh/deploy_key.pub --title "prod server"
+
+# List SSH keys already on your GitHub account
+good-trip ssh-github --list
+
+# Preview the API payload without sending
+good-trip ssh-github --dry-run
+```
+
+| Option | Description |
+| --- | --- |
+| `--key <path>` | Path to `.pub` file (default: `~/.ssh/id_ed25519.pub`) |
+| `--title <text>` | Key title on GitHub (default: `user@host — date`) |
+| `--token <token>` | GitHub PAT, or set `$GITHUB_TOKEN` env var |
+| `--list` | List keys currently on your account |
+| `--dry-run` | Show API payload without sending |
+
+Create a token at: <https://github.com/settings/tokens/new?scopes=write:public_key>
+
+### Typical server setup workflow
+
+```sh
+# 1. On the fresh server — generate key and allow future SSH access
+good-trip ssh-keygen --name server_key --comment you@example.com --authorized-keys
+
+# 2. Add the generated key to GitHub so you can clone private repos
+good-trip ssh-github --token ghp_xxxxxxxxxxxx --key ~/.ssh/server_key.pub
+
+# 3. Verify
+ssh -T git@github.com
 ```
 
 ---

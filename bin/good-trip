@@ -34,13 +34,19 @@ cmd_help() {
   echo "  version                               Show installed version"
   echo "  status                                Show current state"
   echo "  symlinks [--dry-run]                  Re-apply symlinks"
+  echo "  ssh-keygen [options]                  Generate an SSH key pair and print public key"
+  echo "  ssh-github [options]                  Register an SSH key with your GitHub account"
   echo "  help                                  Show this help"
   echo ""
   echo -e "${BOLD}Examples:${NC}"
-  echo "  good-trip update          # Interactive update"
-  echo "  good-trip update --yes    # Auto-apply update"
-  echo "  good-trip update --check  # Only check, never apply"
-  echo "  good-trip symlinks        # Re-apply symlinks (e.g. after adding a file)"
+  echo "  good-trip update                       # Interactive update"
+  echo "  good-trip update --yes                 # Auto-apply update"
+  echo "  good-trip update --check               # Only check, never apply"
+  echo "  good-trip symlinks                     # Re-apply symlinks"
+  echo "  good-trip ssh-keygen                   # Generate Ed25519 key, print public key"
+  echo "  good-trip ssh-keygen --authorized-keys # Also add key to authorized_keys"
+  echo "  good-trip ssh-github                   # Add SSH key to GitHub account"
+  echo "  good-trip ssh-github --list            # List SSH keys on GitHub account"
   echo ""
 }
 
@@ -79,6 +85,14 @@ cmd_symlinks() {
   bash "${GOOD_TRIP_DIR}/scripts/symlinks.sh" "$@"
 }
 
+cmd_ssh_keygen() {
+  bash "${GOOD_TRIP_DIR}/scripts/ssh-keygen.sh" "$@"
+}
+
+cmd_ssh_github() {
+  bash "${GOOD_TRIP_DIR}/scripts/ssh-github.sh" "$@"
+}
+
 # ── Dispatch ──────────────────────────────────────────────────────────────────
 main() {
   local cmd="${1:-help}"
@@ -90,6 +104,8 @@ main() {
     status)          cmd_status ;;
     update)          cmd_update "$@" ;;
     symlinks)        cmd_symlinks "$@" ;;
+    ssh-keygen)      cmd_ssh_keygen "$@" ;;
+    ssh-github)      cmd_ssh_github "$@" ;;
     *)
       error "Unknown command: ${cmd}"
       cmd_help
