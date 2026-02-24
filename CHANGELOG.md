@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/PepeuFBV/good-trip/compare/v1.4.1...v1.4.2) (2026-02-24)
+
+
+### Bug Fixes
+
+* **update:** enhance version comparison by normalizing version strings ([fea86f7](https://github.com/PepeuFBV/good-trip/commit/fea86f76711cf53b5c7a6919609e58c532c9841d))
+
 ## [1.4.1](https://github.com/PepeuFBV/good-trip/compare/v1.4.0...v1.4.1) (2026-02-24)
 
 
