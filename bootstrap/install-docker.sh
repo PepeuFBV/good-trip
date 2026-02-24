@@ -15,14 +15,6 @@ success() { echo -e "${GREEN}[docker]${NC} ✓ $*"; }
 warn()    { echo -e "${YELLOW}[docker]${NC} ⚠ $*"; }
 has()     { command -v "$1" &>/dev/null; }
 
-# ── Already installed? ────────────────────────────────────────────────────────
-if has docker; then
-  success "Docker already installed: $(docker --version)"
-  _check_compose
-  _add_to_group
-  exit 0
-fi
-
 # ── Helpers ───────────────────────────────────────────────────────────────────
 _add_to_group() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -76,6 +68,14 @@ _install_compose_plugin() {
     success "Docker Compose plugin (${compose_version}) installed to ${install_dir}/docker-compose"
   fi
 }
+
+# ── Already installed? ────────────────────────────────────────────────────────
+if has docker; then
+  success "Docker already installed: $(docker --version)"
+  _check_compose
+  _add_to_group
+  exit 0
+fi
 
 # ── Install Docker ────────────────────────────────────────────────────────────
 if [[ "$OSTYPE" == "darwin"* ]]; then
