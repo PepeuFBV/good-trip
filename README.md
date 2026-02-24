@@ -109,6 +109,29 @@ good-trip update --yes    # apply immediately, no prompt
 good-trip update --check  # only report latest version, never apply
 ```
 
+### List and install a specific version
+
+```sh
+good-trip update --list              # list all available releases
+good-trip update --version 1.3.2     # install a specific version
+```
+
+`--list` annotates each entry with `← installed` (current) and `🔒 locked` markers.
+
+### Lock / pin a version
+
+Locking pins good-trip to a specific version and silences all auto-update
+notifications until the lock is removed.
+
+```sh
+good-trip update --lock              # lock to the currently installed version
+good-trip update --lock 1.3.2        # install 1.3.2 AND lock to it
+good-trip update --unlock            # remove the lock (auto-updates resume)
+```
+
+The lock is stored in `~/.good-trip/.version-lock`. `good-trip status` always
+shows whether a lock is active.
+
 ### Disable auto-check
 
 Set the interval to a very large number (in seconds) in your shell:
@@ -127,8 +150,12 @@ good-trip <command> [options]
 
 Commands:
   update [--yes] [--check] [--silent]   Check and apply updates
+  update --list                         List available versions
+  update --version <x.y.z>             Install a specific version
+  update --lock [<x.y.z>]              Lock to a version (suppresses auto-updates)
+  update --unlock                       Remove version lock
   version                               Print installed version
-  status                                Show symlink and install status
+  status                                Show symlink, version, and lock status
   symlinks [--dry-run]                  Re-apply all managed symlinks
   ssh-keygen [options]                  Generate an SSH key pair and print public key
   ssh-github [options]                  Register an SSH key with your GitHub account
@@ -142,6 +169,10 @@ good-trip version
 good-trip status
 good-trip symlinks --dry-run
 good-trip update --check
+good-trip update --list
+good-trip update --version 1.3.2
+good-trip update --lock
+good-trip update --unlock
 good-trip ssh-keygen --name id_ed25519
 good-trip ssh-github --list
 ```

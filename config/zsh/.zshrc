@@ -148,3 +148,4 @@ _gt_check_update() {
   fi
 }
 _gt_check_update
+export GPG_TTY="$(tty)"

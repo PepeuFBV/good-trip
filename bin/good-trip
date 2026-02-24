@@ -31,6 +31,10 @@ cmd_help() {
   echo ""
   echo -e "${BOLD}Commands:${NC}"
   echo "  update [--yes] [--check] [--silent]   Check and apply updates"
+  echo "  update --list                         List available versions"
+  echo "  update --version <x.y.z>              Install a specific version"
+  echo "  update --lock [<x.y.z>]               Lock to a version (suppresses auto-updates)"
+  echo "  update --unlock                       Remove version lock"
   echo "  version                               Show installed version"
   echo "  status                                Show current state"
   echo "  symlinks [--dry-run]                  Re-apply symlinks"
@@ -42,8 +46,13 @@ cmd_help() {
   echo "  good-trip update                       # Interactive update"
   echo "  good-trip update --yes                 # Auto-apply update"
   echo "  good-trip update --check               # Only check, never apply"
+  echo "  good-trip update --list                # List all available versions"
+  echo "  good-trip update --version 1.3.2       # Install version 1.3.2"
+  echo "  good-trip update --lock                # Lock to current installed version"
+  echo "  good-trip update --lock 1.3.2          # Install and lock to 1.3.2"
+  echo "  good-trip update --unlock              # Remove version lock"
   echo "  good-trip symlinks                     # Re-apply symlinks"
-  echo "  good-trip ssh-keygen                   # Generate Ed25519 key, print public key"
+  echo "  good-trip ssh-keygen --name id_ed25519 # Generate Ed25519 key, print public key"
   echo "  good-trip ssh-keygen --authorized-keys # Also add key to authorized_keys"
   echo "  good-trip ssh-github                   # Add SSH key to GitHub account"
   echo "  good-trip ssh-github --list            # List SSH keys on GitHub account"
@@ -57,8 +66,18 @@ cmd_version() {
 cmd_status() {
   local ver
   ver="$(version)"
+  local lock_file="${GOOD_TRIP_DIR}/.version-lock"
   log "Installed version : ${BOLD}${ver}${NC}"
   log "Install directory : ${GOOD_TRIP_DIR}"
+
+  if [[ -f "$lock_file" ]]; then
+    local locked
+    locked="$(cat "$lock_file" | tr -d '[:space:]')"
+    log "Version lock      : ${YELLOW}${BOLD}${locked}${NC} ${YELLOW}(auto-updates suppressed)${NC}"
+  else
+    log "Version lock      : none (auto-updates active)"
+  fi
+
   log "Symlinks:"
 
   local -A targets=(

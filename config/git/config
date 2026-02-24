@@ -1,7 +1,7 @@
 [user]
     name = <your-name>
     email = <your-email>
-    signingkey = <your-gpg-key-id>
+	signingkey = 57C9A3A571D305AC
 
 [core]
     compression = 1
@@ -57,3 +57,5 @@
     undo = reset --soft HEAD~1
     wip  = !git add -A && git commit -m 'chore: wip [skip ci]'
     unwip = reset HEAD~1 --mixed
+[gpg]
+	program = /usr/bin/gpg
