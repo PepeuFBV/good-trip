@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/PepeuFBV/good-trip/compare/v1.6.1...v1.6.2) (2026-02-24)
+
+
+### Bug Fixes
+
+* **install:** move 'already installed' check to a new section ([9bdd869](https://github.com/PepeuFBV/good-trip/commit/9bdd869aedb3ffc326935dbb5a217405fd3164ef))
+
 ## [1.6.1](https://github.com/PepeuFBV/good-trip/compare/v1.6.0...v1.6.1) (2026-02-24)
 
 
