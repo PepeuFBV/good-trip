@@ -1,44 +1,120 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
 permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-  id-token: write
+    contents: write
+    issues: write
+    pull-requests: write
+    id-token: write
 
 jobs:
-  release:
-    name: Semantic Release
-    runs-on: ubuntu-latest
+    release:
+        name: Semantic Release
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  persist-credentials: true
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "lts/*"
 
-      - name: Install semantic-release and plugins
-        run: |
-          npm install -g \
-            semantic-release \
-            @semantic-release/changelog \
-            @semantic-release/git \
-            @semantic-release/exec \
-            @semantic-release/github \
-            conventional-changelog-conventionalcommits
+            - name: Install semantic-release and plugins
+              run: |
+                  npm install -g \
+                    semantic-release \
+                    @semantic-release/changelog \
+                    @semantic-release/git \
+                    @semantic-release/exec \
+                    @semantic-release/github \
+                    conventional-changelog-conventionalcommits
 
-      - name: Run semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+            - name: Run semantic-release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: npx semantic-release
+
+            - name: Post-release - update package.json and create shorthand tags/releases
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_REPOSITORY: ${{ github.repository }}
+              run: |
+                  set -euo pipefail
+                  sudo apt-get update -y
+                  sudo apt-get install -y jq
+                  git fetch --tags
+
+                  # Try to find a tag that points to HEAD (semantic-release tag)
+                  TAG=$(git tag --points-at HEAD | grep -E '^v?[0-9]+' | head -n1 || true)
+                  if [ -z "$TAG" ]; then
+                      # fallback to latest semver tag
+                      TAG=$(git tag --list 'v*' --sort=-v:refname | head -n1 || true)
+                  fi
+                  if [ -z "$TAG" ]; then
+                      echo "No release tag found; exiting."
+                      exit 0
+                  fi
+
+                  # normalize tag without leading v
+                  VERSION=${TAG#v}
+                  echo "Detected release version: $VERSION (from tag: $TAG)"
+
+                  MAJOR=$(echo "$VERSION" | cut -d. -f1)
+                  MINOR=$(echo "$VERSION" | cut -d. -f2)
+                  if [ -z "$MINOR" ]; then
+                      MINOR=0
+                  fi
+
+                  # Resolve commit for the release tag
+                  COMMIT=$(git rev-list -n1 "v$VERSION" 2>/dev/null || git rev-parse HEAD)
+
+                  # Update package.json version if present
+                  if [ -f package.json ]; then
+                      node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('package.json'));p.version='${VERSION}';fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\n');"
+                      git add package.json
+                      if git diff --staged --quiet; then
+                          echo "package.json already up-to-date"
+                      else
+                          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m "chore(release): update package.json to ${VERSION} [skip ci]"
+                          git push origin HEAD:main
+                      fi
+                  fi
+
+                  # Create/update shorthand tag v<major>
+                  SHORT_MAJOR="v${MAJOR}"
+                  git tag -f "$SHORT_MAJOR" "$COMMIT"
+                  git push --force origin "refs/tags/$SHORT_MAJOR"
+
+                  # Create/update GitHub release for shorthand major tag
+                  REPO="$GITHUB_REPOSITORY"
+                  BODY="Alias release for v${VERSION}"
+                  existing=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/repos/${REPO}/releases/tags/${SHORT_MAJOR}" || true)
+                  if echo "$existing" | jq -e '.id' >/dev/null 2>&1; then
+                      id=$(echo "$existing" | jq -r .id)
+                      curl -s -X PATCH -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d "{\"tag_name\":\"${SHORT_MAJOR}\",\"name\":\"${SHORT_MAJOR}\",\"body\":\"${BODY}\",\"make_latest\":\"true\"}" "https://api.github.com/repos/${REPO}/releases/${id}"
+                  else
+                      curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d "{\"tag_name\":\"${SHORT_MAJOR}\",\"name\":\"${SHORT_MAJOR}\",\"body\":\"${BODY}\",\"make_latest\":\"true\"}" "https://api.github.com/repos/${REPO}/releases"
+                  fi
+
+                  # If minor is 0, also update v<major>.<minor> (e.g., v1.0) to track 1.0.x series
+                  if [ "$MINOR" = "0" ]; then
+                      SHORT_MINOR="v${MAJOR}.${MINOR}"
+                      git tag -f "$SHORT_MINOR" "$COMMIT"
+                      git push --force origin "refs/tags/$SHORT_MINOR"
+                      existing2=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/repos/${REPO}/releases/tags/${SHORT_MINOR}" || true)
+                      if echo "$existing2" | jq -e '.id' >/dev/null 2>&1; then
+                          id2=$(echo "$existing2" | jq -r .id)
+                          curl -s -X PATCH -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d "{\"tag_name\":\"${SHORT_MINOR}\",\"name\":\"${SHORT_MINOR}\",\"body\":\"${BODY}\",\"make_latest\":\"true\"}" "https://api.github.com/repos/${REPO}/releases/${id2}"
+                      else
+                          curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d "{\"tag_name\":\"${SHORT_MINOR}\",\"name\":\"${SHORT_MINOR}\",\"body\":\"${BODY}\",\"make_latest\":\"true\"}" "https://api.github.com/repos/${REPO}/releases"
+                      fi
+                  fi

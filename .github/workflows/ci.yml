@@ -1,101 +1,120 @@
 name: CI
 
 on:
-  push:
-    branches-ignore:
-      - main
-  pull_request:
-    branches:
-      - main
+    push:
+        branches-ignore:
+            - main
+    pull_request:
+        branches:
+            - main
 
 jobs:
-  lint-commits:
-    name: Lint Commit Messages
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    lint-commits:
+        name: Lint Commit Messages
+        runs-on: ubuntu-latest
+        if: github.event_name == 'pull_request'
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "lts/*"
 
-      - name: Install commitlint
-        run: |
-          npm install -g \
-            @commitlint/cli \
-            @commitlint/config-conventional
+            - name: Install commitlint
+              run: |
+                  npm install -g \
+                    @commitlint/cli \
+                    @commitlint/config-conventional
 
-      - name: Validate PR commits
-        run: |
-          npx commitlint \
-            --from ${{ github.event.pull_request.base.sha }} \
-            --to ${{ github.event.pull_request.head.sha }} \
-            --verbose
+            - name: Validate PR commits
+              run: |
+                  npx commitlint \
+                    --from ${{ github.event.pull_request.base.sha }} \
+                    --to ${{ github.event.pull_request.head.sha }} \
+                    --verbose
 
-  lint-shell:
-    name: Lint Shell Scripts
-    runs-on: ubuntu-latest
+    lint-shell:
+        name: Lint Shell Scripts
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
 
-      - name: Install shellcheck
-        run: sudo apt-get install -y shellcheck
+            - name: Install shellcheck
+              run: sudo apt-get install -y shellcheck
 
-      - name: Run shellcheck on all shell scripts
-        run: |
-          find . -name "*.sh" -not -path "./.git/*" | \
-            xargs shellcheck --severity=warning
+            - name: Run shellcheck on all shell scripts
+              run: |
+                  find . -name "*.sh" -not -path "./.git/*" | \
+                    xargs shellcheck --severity=warning
 
-      - name: Check bin/good-trip
-        run: shellcheck --severity=warning bin/good-trip
+            - name: Check bin/good-trip
+              run: shellcheck --severity=warning bin/good-trip
 
-  validate-structure:
-    name: Validate Structure
-    runs-on: ubuntu-latest
+    validate-structure:
+        name: Validate Structure
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
 
-      - name: Check required files exist
-        run: |
-          required=(
-            "version.txt"
-            "install.sh"
-            "update.sh"
-            "bin/good-trip"
-            "scripts/symlinks.sh"
-            "scripts/update.sh"
-            "config/zsh/.zshrc"
-            "config/git/config"
-            "config/aliases/docker.aliases"
-            "config/aliases/node.aliases"
-            ".releaserc.json"
-          )
-          failed=0
-          for f in "${required[@]}"; do
-            if [[ ! -f "$f" ]]; then
-              echo "MISSING: $f"
-              failed=1
-            else
-              echo "OK: $f"
-            fi
-          done
-          exit $failed
+            - name: Check required files exist
+              run: |
+                  required=(
+                    "version.txt"
+                    "install.sh"
+                    "update.sh"
+                    "bin/good-trip"
+                    "scripts/symlinks.sh"
+                    "scripts/update.sh"
+                    "config/zsh/.zshrc"
+                    "config/git/config"
+                    "config/aliases/docker.aliases"
+                    "config/aliases/node.aliases"
+                    ".releaserc.json"
+                  )
+                  failed=0
+                  for f in "${required[@]}"; do
+                    if [[ ! -f "$f" ]]; then
+                      echo "MISSING: $f"
+                      failed=1
+                    else
+                      echo "OK: $f"
+                    fi
+                  done
+                  exit $failed
 
-      - name: Check scripts are executable (or will be made so)
-        run: |
-          echo "Checking shell script validity (bash -n)..."
-          while IFS= read -r -d '' script; do
-            echo "Checking: $script"
-            bash -n "$script" || { echo "SYNTAX ERROR in $script"; exit 1; }
-          done < <(find . -name "*.sh" -not -path "./.git/*" -print0)
-          bash -n bin/good-trip
+            - name: Check scripts are executable (or will be made so)
+              run: |
+                  echo "Checking shell script validity (bash -n)..."
+                  while IFS= read -r -d '' script; do
+                    echo "Checking: $script"
+                    bash -n "$script" || { echo "SYNTAX ERROR in $script"; exit 1; }
+                  done < <(find . -name "*.sh" -not -path "./.git/*" -print0)
+                  bash -n bin/good-trip
+
+    prettier:
+        name: Prettier Check
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "18"
+
+            - name: Install Prettier
+              run: npm install --no-save prettier
+
+            - name: Run Prettier check
+              run: npx prettier --check .
