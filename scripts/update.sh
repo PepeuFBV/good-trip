@@ -162,15 +162,30 @@ cmd_unlock() {
 apply_update() {
   log "Fetching latest changes..."
   git -C "${GOOD_TRIP_DIR}" fetch --tags --quiet
-  local remote
+
+  # If the repo is in detached HEAD state (e.g. after --version / --lock checkout),
+  # switch back to the main branch before pulling.
+  local head_ref
+  head_ref="$(git -C "${GOOD_TRIP_DIR}" symbolic-ref --short HEAD 2>/dev/null || echo "DETACHED")"
+  if [[ "$head_ref" == "DETACHED" ]]; then
+    log "Detached HEAD detected — switching back to main branch..."
+    if ! git -C "${GOOD_TRIP_DIR}" checkout --quiet main 2>/dev/null; then
+      error "Could not switch to main branch. Run 'git -C ~/.good-trip checkout main' manually."
+      return 1
+    fi
+  fi
+
+  local remote local_ref
   remote="$(git -C "${GOOD_TRIP_DIR}" rev-parse origin/main)"
-  local local_ref
   local_ref="$(git -C "${GOOD_TRIP_DIR}" rev-parse HEAD)"
 
   if [[ "$remote" == "$local_ref" ]]; then
     success "Repository is already at latest commit."
   else
-    git -C "${GOOD_TRIP_DIR}" pull --ff-only --quiet
+    if ! git -C "${GOOD_TRIP_DIR}" pull --ff-only --quiet; then
+      error "Fast-forward pull failed. Run 'git -C ~/.good-trip pull' manually to resolve."
+      return 1
+    fi
     success "Repository updated."
   fi
   log "Re-applying symlinks..."
