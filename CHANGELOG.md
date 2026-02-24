@@ -1,3 +1,11 @@
+## [1.3.1](https://github.com/PepeuFBV/good-trip/compare/v1.3.0...v1.3.1) (2026-02-24)
+
+
+### Bug Fixes
+
+* **release:** correct package name for conventional changelog in release workflow ([8da3ef4](https://github.com/PepeuFBV/good-trip/commit/8da3ef46cc717abb84113db9626bb66e7a288085))
+* **release:** update package.json using GitHub Contents API to avoid git pushes ([3680001](https://github.com/PepeuFBV/good-trip/commit/36800017e12f661d7315114f1e7fbe7525c0dab1))
+
 # [1.3.0](https://github.com/PepeuFBV/good-trip/compare/v1.2.0...v1.3.0) (2026-02-23)
 
 
