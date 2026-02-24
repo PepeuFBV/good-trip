@@ -109,16 +109,14 @@ jobs:
                       curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d "{\"tag_name\":\"${SHORT_MAJOR}\",\"name\":\"${SHORT_MAJOR}\",\"body\":\"${BODY}\",\"make_latest\":\"true\"}" "https://api.github.com/repos/${REPO}/releases"
                   fi
 
-                  # If minor is 0, also update v<major>.<minor> (e.g., v1.0) to track 1.0.x series
-                  if [ "$MINOR" = "0" ]; then
-                      SHORT_MINOR="v${MAJOR}.${MINOR}"
-                      git tag -f "$SHORT_MINOR" "$COMMIT"
-                      git push --force origin "refs/tags/$SHORT_MINOR"
-                      existing2=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/repos/${REPO}/releases/tags/${SHORT_MINOR}" || true)
-                      if echo "$existing2" | jq -e '.id' >/dev/null 2>&1; then
-                          id2=$(echo "$existing2" | jq -r .id)
-                          curl -s -X PATCH -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d "{\"tag_name\":\"${SHORT_MINOR}\",\"name\":\"${SHORT_MINOR}\",\"body\":\"${BODY}\",\"make_latest\":\"true\"}" "https://api.github.com/repos/${REPO}/releases/${id2}"
-                      else
-                          curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d "{\"tag_name\":\"${SHORT_MINOR}\",\"name\":\"${SHORT_MINOR}\",\"body\":\"${BODY}\",\"make_latest\":\"true\"}" "https://api.github.com/repos/${REPO}/releases"
-                      fi
+                  # Also update v<major>.<minor> (e.g., v1.3) to track the latest for that minor series
+                  SHORT_MINOR="v${MAJOR}.${MINOR}"
+                  git tag -f "$SHORT_MINOR" "$COMMIT"
+                  git push --force origin "refs/tags/$SHORT_MINOR"
+                  existing2=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/repos/${REPO}/releases/tags/${SHORT_MINOR}" || true)
+                  if echo "$existing2" | jq -e '.id' >/dev/null 2>&1; then
+                      id2=$(echo "$existing2" | jq -r .id)
+                      curl -s -X PATCH -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d "{\"tag_name\":\"${SHORT_MINOR}\",\"name\":\"${SHORT_MINOR}\",\"body\":\"${BODY}\",\"make_latest\":\"true\"}" "https://api.github.com/repos/${REPO}/releases/${id2}"
+                  else
+                      curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d "{\"tag_name\":\"${SHORT_MINOR}\",\"name\":\"${SHORT_MINOR}\",\"body\":\"${BODY}\",\"make_latest\":\"true\"}" "https://api.github.com/repos/${REPO}/releases"
                   fi
