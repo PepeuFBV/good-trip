@@ -36,7 +36,7 @@ jobs:
                     @semantic-release/git \
                     @semantic-release/exec \
                     @semantic-release/github \
-                    conventional-changelog-conventionalcommits
+                    conventional-changelogcc-conventionalcommits
 
             - name: Run semantic-release
               env:
@@ -77,15 +77,19 @@ jobs:
                   # Resolve commit for the release tag
                   COMMIT=$(git rev-list -n1 "v$VERSION" 2>/dev/null || git rev-parse HEAD)
 
-                  # Update package.json version if present
+                  # Update package.json version if present using GitHub Contents API
+                  # This avoids git pushes that could modify workflow files (no workflows permission needed)
                   if [ -f package.json ]; then
                       node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('package.json'));p.version='${VERSION}';fs.writeFileSync('package.json',JSON.stringify(p,null,2)+'\n');"
-                      git add package.json
-                      if git diff --staged --quiet; then
-                          echo "package.json already up-to-date"
+                      # encode content
+                      CONTENT=$(base64 -w 0 package.json)
+                      FILE_API="https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/package.json"
+                      SHA=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" "$FILE_API?ref=main" | jq -r .sha)
+                      if [ -z "$SHA" ] || [ "$SHA" = "null" ]; then
+                          echo "package.json not found in repository or sha missing; skipping API update"
                       else
-                          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m "chore(release): update package.json to ${VERSION} [skip ci]"
-                          git push origin HEAD:main
+                          PAYLOAD=$(jq -n --arg msg "chore(release): update package.json to ${VERSION} [skip ci]" --arg cont "$CONTENT" --arg sha "$SHA" --arg name "github-actions[bot]" --arg email "41898282+github-actions[bot]@users.noreply.github.com" '{message:$msg,content:$cont,sha:$sha,branch:"main",committer:{name:$name,email:$email}}')
+                          curl -s -X PUT -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d "$PAYLOAD" "$FILE_API"
                       fi
                   fi
 
