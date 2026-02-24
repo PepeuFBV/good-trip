@@ -82,6 +82,8 @@ apply_update() {
 main() {
   local mode="interactive"
   local silent=false
+  # Ensure we always record when the check ran, even if we return early
+  trap update_stamp RETURN
 
   for arg in "$@"; do
     case "$arg" in
@@ -132,6 +134,7 @@ main() {
   else
     $silent || success "good-trip is up-to-date (${local_ver})."
   fi
+
 }
 
 main "$@"
