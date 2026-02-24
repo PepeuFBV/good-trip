@@ -40,6 +40,7 @@ cmd_help() {
   echo "  symlinks [--dry-run]                  Re-apply symlinks"
   echo "  ssh-keygen [options]                  Generate an SSH key pair and print public key"
   echo "  ssh-github [options]                  Register an SSH key with your GitHub account"
+  echo "  uninstall [--yes] [--purge] [--dry-run]  Remove good-trip managed files"
   echo "  help                                  Show this help"
   echo ""
   echo -e "${BOLD}Examples:${NC}"
@@ -56,6 +57,10 @@ cmd_help() {
   echo "  good-trip ssh-keygen --authorized-keys # Also add key to authorized_keys"
   echo "  good-trip ssh-github                   # Add SSH key to GitHub account"
   echo "  good-trip ssh-github --list            # List SSH keys on GitHub account"
+  echo "  good-trip uninstall                    # Interactive uninstall"
+  echo "  good-trip uninstall --yes              # Remove everything, no prompts"
+  echo "  good-trip uninstall --purge            # Also delete ~/.good-trip directory"
+  echo "  good-trip uninstall --dry-run          # Preview what would be removed"
   echo ""
 }
 
@@ -112,6 +117,10 @@ cmd_ssh_github() {
   bash "${GOOD_TRIP_DIR}/scripts/ssh-github.sh" "$@"
 }
 
+cmd_uninstall() {
+  bash "${GOOD_TRIP_DIR}/scripts/uninstall.sh" "$@"
+}
+
 # ── Dispatch ──────────────────────────────────────────────────────────────────
 main() {
   local cmd="${1:-help}"
@@ -125,6 +134,7 @@ main() {
     symlinks)        cmd_symlinks "$@" ;;
     ssh-keygen)      cmd_ssh_keygen "$@" ;;
     ssh-github)      cmd_ssh_github "$@" ;;
+    uninstall)       cmd_uninstall "$@" ;;
     *)
       error "Unknown command: ${cmd}"
       cmd_help
