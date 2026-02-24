@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/PepeuFBV/good-trip/compare/v1.3.1...v1.3.2) (2026-02-24)
+
+
+### Bug Fixes
+
+* **release:** update release process to correctly tag and track minor version series ([c34152d](https://github.com/PepeuFBV/good-trip/commit/c34152da2efb733b31401990e3a5da922056c042))
+
 ## [1.3.1](https://github.com/PepeuFBV/good-trip/compare/v1.3.0...v1.3.1) (2026-02-24)
 
 
