@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/PepeuFBV/good-trip/compare/v1.3.2...v1.4.0) (2026-02-24)
+
+
+### Features
+
+* **ssh:** add SSH key management commands and scripts ([6ba5758](https://github.com/PepeuFBV/good-trip/commit/6ba575868e5a68efe415f3488faab1f708a87feb))
+
 ## [1.3.2](https://github.com/PepeuFBV/good-trip/compare/v1.3.1...v1.3.2) (2026-02-24)
 
 
