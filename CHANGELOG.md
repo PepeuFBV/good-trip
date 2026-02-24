@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/PepeuFBV/good-trip/compare/v1.4.2...v1.5.0) (2026-02-24)
+
+
+### Features
+
+* **update:** add version management commands for listing, installing, and locking versions ([1dea0b3](https://github.com/PepeuFBV/good-trip/commit/1dea0b3b5689f7a1458cab64946ec8d5ec942692))
+
 ## [1.4.2](https://github.com/PepeuFBV/good-trip/compare/v1.4.1...v1.4.2) (2026-02-24)
 
 
