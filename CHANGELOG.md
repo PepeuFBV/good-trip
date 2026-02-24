@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/PepeuFBV/good-trip/compare/v1.6.0...v1.6.1) (2026-02-24)
+
+
+### Bug Fixes
+
+* **update:** handle detached HEAD state during updates ([9c1ec2d](https://github.com/PepeuFBV/good-trip/commit/9c1ec2d04d601d8fc38fcba2d94ee4628194945a))
+
 # [1.6.0](https://github.com/PepeuFBV/good-trip/compare/v1.5.0...v1.6.0) (2026-02-24)
 
 
