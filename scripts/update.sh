@@ -46,8 +46,26 @@ remote_version() {
 }
 
 # Compares semver strings. Returns 0 if $1 < $2 (update available).
+normalize_version() {
+  # Normalize to MAJOR.MINOR.PATCH (pad with .0 when needed)
+  local v="$1"
+  # remove any leading v or whitespace
+  v="${v#v}"
+  v="$(echo -n "$v" | tr -d '[:space:]')"
+  IFS='.' read -r -a parts <<< "$v"
+  parts[0]="${parts[0]:-0}"
+  parts[1]="${parts[1]:-0}"
+  parts[2]="${parts[2]:-0}"
+  echo "${parts[0]}.${parts[1]}.${parts[2]}"
+}
+
 version_lt() {
-  [[ "$1" != "$2" ]] && [[ "$(printf '%s\n' "$1" "$2" | sort -V | head -1)" == "$1" ]]
+  # Compare two versions after normalizing to MAJOR.MINOR.PATCH
+  local a b na nb
+  a="$1"; b="$2"
+  na="$(normalize_version "$a")"
+  nb="$(normalize_version "$b")"
+  [[ "$na" != "$nb" ]] && [[ "$(printf '%s\n' "$na" "$nb" | sort -V | head -1)" == "$na" ]]
 }
 
 # ── Update stamp (used by daily auto-check) ────────────────────────────────────
