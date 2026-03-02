@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/PepeuFBV/good-trip/compare/v1.9.0...v1.10.0) (2026-03-02)
+
+
+### Features
+
+* **bootstrap:** add configurable default versions for nvm, sdkman, and python ([1f17b6f](https://github.com/PepeuFBV/good-trip/commit/1f17b6f8a047567262a00cc7ef3b90bfef0c8b4c)), closes [#3](https://github.com/PepeuFBV/good-trip/issues/3)
+
 # [1.9.0](https://github.com/PepeuFBV/good-trip/compare/v1.8.0...v1.9.0) (2026-03-02)
 
 ### Features
