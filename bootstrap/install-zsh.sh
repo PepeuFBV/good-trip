@@ -14,6 +14,15 @@ has()     { command -v "$1" &>/dev/null; }
 
 if has zsh; then
   success "ZSH already installed: $(zsh --version)"
+  # Ensure zsh is the default shell even when it was pre-installed
+  if [[ "$SHELL" != "$(which zsh)" ]]; then
+    log "ZSH is installed but not the default shell. Setting it as default..."
+    if chsh -s "$(which zsh)"; then
+      success "Default shell changed to ZSH (restart session to apply)"
+    else
+      log "Could not auto-change shell. Run: chsh -s $(which zsh)"
+    fi
+  fi
   exit 0
 fi
 
@@ -34,9 +43,9 @@ fi
 
 success "ZSH installed: $(zsh --version)"
 
-# Offer to change default shell
+# Set zsh as the default shell
 if [[ "$SHELL" != "$(which zsh)" ]]; then
-  log "Changing default shell to ZSH..."
+  log "Setting default shell to ZSH..."
   if chsh -s "$(which zsh)"; then
     success "Default shell changed to ZSH (restart session to apply)"
   else
