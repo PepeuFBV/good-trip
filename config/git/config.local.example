@@ -1,0 +1,24 @@
+# =============================================================================
+# good-trip — git local config example
+#
+# This file is a template for ~/.config/good-trip/git.local
+# which holds your personal git identity and is NEVER tracked in the repo.
+#
+# To generate it interactively, run:
+#   good-trip configure git
+#
+# To create it manually, copy this file and fill in your details:
+#   cp config/git/config.local.example ~/.config/good-trip/git.local
+# =============================================================================
+
+[user]
+    name  = Your Full Name
+    email = you@example.com
+    # GPG signing key (long key ID or fingerprint).
+    # Leave commented out if you do not want to sign commits.
+    # signingkey = YOUR_GPG_KEY_ID
+
+# GPG program path — uncomment and adjust if gpg is not in your PATH
+# or if you need a specific binary (e.g. gpg2, /opt/homebrew/bin/gpg).
+# [gpg]
+#     program = gpg

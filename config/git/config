@@ -1,7 +1,8 @@
-[user]
-    name = <your-name>
-    email = <your-email>
-	signingkey = 57C9A3A571D305AC
+# ── User identity ─────────────────────────────────────────────────────────────
+# Loaded from ~/.config/good-trip/git.local (never tracked in git).
+# Run: good-trip configure git
+[include]
+    path = ~/.config/good-trip/git.local
 
 [core]
     compression = 1
@@ -58,4 +59,10 @@
     wip  = !git add -A && git commit -m 'chore: wip [skip ci]'
     unwip = reset HEAD~1 --mixed
 [gpg]
-	program = /usr/bin/gpg
+    program = gpg
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f

@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 # =============================================================================
 # good-trip — bootstrap/install-git-gpg.sh
-# Configures Git (writes ~/.gitconfig via symlink) and helps set up GPG signing
+# Installs git + GPG, then runs the interactive git identity configurator.
 # =============================================================================
+
 set -euo pipefail
+
+GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -28,7 +31,7 @@ fi
 success "Git: $(git --version)"
 
 # ── Symlink for ~/.gitconfig is handled by scripts/symlinks.sh ───────────────
-# This script focuses on the GPG portion.
+# This script focuses on installing GPG and configuring the user identity.
 
 # ── GPG setup ─────────────────────────────────────────────────────────────────
 if ! has gpg && ! has gpg2; then
@@ -45,24 +48,31 @@ fi
 GPG_BIN="$(command -v gpg2 2>/dev/null || command -v gpg 2>/dev/null)"
 success "GPG: $("$GPG_BIN" --version | head -1)"
 
-# List existing keys
-KEYS="$("$GPG_BIN" --list-secret-keys --keyid-format LONG 2>/dev/null)"
-
+# List existing keys informatively
+KEYS="$("$GPG_BIN" --list-secret-keys --keyid-format LONG 2>/dev/null || true)"
 if [[ -z "$KEYS" ]]; then
-  warn "No GPG keys found."
-  echo ""
-  log "To generate a new GPG key:"
+  warn "No GPG keys found. You can generate one after installation:"
   echo "  gpg --full-generate-key"
-  echo ""
-  log "Then update 'config/git/config' with your key ID:"
-  echo "  [user]"
-  echo "      signingkey = <YOUR_KEY_ID>"
-  echo ""
 else
   success "Existing GPG keys found:"
   echo "$KEYS"
-  log "Ensure [user].signingkey in config/git/config matches your key."
 fi
 
-# Ensure GPG_TTY is exportable (already in .zshrc)
-success "Git + GPG configuration complete."
+# ── Git identity configuration ────────────────────────────────────────────────
+LOCAL_GIT_CONFIG="${HOME}/.config/good-trip/git.local"
+
+if [[ -f "$LOCAL_GIT_CONFIG" ]]; then
+  log "Git identity already configured at ${LOCAL_GIT_CONFIG}"
+  log "To update it, run: good-trip configure git"
+else
+  log "Setting up your git identity..."
+  # Run the configure script if we have a TTY; otherwise, print instructions.
+  if [[ -t 0 ]] && [[ -t 1 ]]; then
+    bash "${GOOD_TRIP_DIR}/scripts/configure-git.sh"
+  else
+    warn "No interactive TTY — skipping git identity setup."
+    warn "After installation, run: good-trip configure git"
+  fi
+fi
+
+success "Git + GPG bootstrap complete."

@@ -104,8 +104,8 @@ picker() {
     tput clear
     echo -e "${BOLD}${BLUE}"
     cat <<'ART'
-   ___  ___  ___  ___     _____ ___ ___ ___
-  / __|/ _ \/ _ \|   \   |_   _| _ \_ _| _ \
+   ___  ___   ___  ___     _____ ___ ___ ___
+  / __|/ _ \ / _ \|   \   |_   _| _ \_ _| _ \
  | (_ | (_) | (_) | |) |    | | |  _/| ||  _/
   \___|\___/ \___/|___/     |_| |_| |___|_|
 ART
@@ -420,11 +420,12 @@ BANNER
   echo -e "${BOLD}  Next steps:${NC}"
   echo "    1. exec zsh                  — reload your shell"
   echo "    2. p10k configure            — set up your prompt (first time)"
-  echo "    3. good-trip help            — explore available commands"
+  echo "    3. good-trip configure git   — set your git name, email & GPG key"
+  echo "    4. good-trip help            — explore available commands"
   if grep -q "docker" <<< "$(for i in "${!COMPONENTS[@]}"; do
     IFS='|' read -r s _ _ _ _ <<< "${COMPONENTS[$i]}"
     [[ "${SELECTED[$i]}" == "1" ]] && echo "$s"; done)"; then
-    echo "    4. newgrp docker             — activate docker group (or re-login)"
+    echo "    5. newgrp docker             — activate docker group (or re-login)"
   fi
   echo ""
   log "Version: $(cat "${GOOD_TRIP_DIR}/version.txt" 2>/dev/null || echo "unknown")"
