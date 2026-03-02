@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/PepeuFBV/good-trip/compare/v1.7.0...v1.8.0) (2026-03-02)
+
+
+### Features
+
+* **bootstrap:** set zsh as default shell if already installed ([5ad9beb](https://github.com/PepeuFBV/good-trip/commit/5ad9beb0d64dfadc7f6643e9d8f5db2c9ee95ef7)), closes [#1](https://github.com/PepeuFBV/good-trip/issues/1)
+
 # [1.7.0](https://github.com/PepeuFBV/good-trip/compare/v1.6.2...v1.7.0) (2026-03-02)
 
 
