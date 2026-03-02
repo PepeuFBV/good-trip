@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/PepeuFBV/good-trip/compare/v1.6.2...v1.7.0) (2026-03-02)
+
+
+### Features
+
+* **git:** add interactive git identity configuration and update related scripts ([6b42f20](https://github.com/PepeuFBV/good-trip/commit/6b42f20a8765f482a8460098a62011ef0a020711))
+
 ## [1.6.2](https://github.com/PepeuFBV/good-trip/compare/v1.6.1...v1.6.2) (2026-02-24)
 
 
