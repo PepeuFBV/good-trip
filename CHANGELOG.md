@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/PepeuFBV/good-trip/compare/v1.8.0...v1.9.0) (2026-03-02)
+
+
+### Features
+
+* **cli:** add p10k config import subcommand ([cd2ffa0](https://github.com/PepeuFBV/good-trip/commit/cd2ffa0b62de6ff4402cf55d9c3d6356ce3317d6)), closes [#2](https://github.com/PepeuFBV/good-trip/issues/2)
+
 # [1.8.0](https://github.com/PepeuFBV/good-trip/compare/v1.7.0...v1.8.0) (2026-03-02)
 
 
