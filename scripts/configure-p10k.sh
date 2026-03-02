@@ -45,7 +45,8 @@ cmd_import() {
 
   # Backup existing config if present
   if [[ -f "$P10K_TARGET" ]]; then
-    local backup="${P10K_TARGET}.bak.$(date +%Y%m%d%H%M%S)"
+    local backup
+    backup="${P10K_TARGET}.bak.$(date +%Y%m%d%H%M%S)"
     warn "Backing up existing ~/.p10k.zsh to ${backup}"
     cp "$P10K_TARGET" "$backup"
   fi

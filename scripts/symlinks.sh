@@ -48,7 +48,8 @@ link() {
 
   # Backup existing file (not a symlink)
   if [[ -e "$dst" ]] && [[ ! -L "$dst" ]]; then
-    local backup="${dst}.good-trip.bak.$(date +%Y%m%d%H%M%S)"
+    local backup
+    backup="${dst}.good-trip.bak.$(date +%Y%m%d%H%M%S)"
     warn "Backing up existing file: ${dst} → ${backup}"
     mv "$dst" "$backup"
   fi
@@ -64,8 +65,8 @@ link() {
 # ── Symlink definitions ────────────────────────────────────────────────────────
 log "Applying good-trip symlinks${DRY_RUN:+ (dry-run)}..."
 
-link "config/zsh/.zshrc"       "~/.zshrc"
-link "config/git/config"       "~/.gitconfig"
-link "config/aliases"          "~/.shell/aliases"
+link "config/zsh/.zshrc"       "$HOME/.zshrc"
+link "config/git/config"       "$HOME/.gitconfig"
+link "config/aliases"          "$HOME/.shell/aliases"
 
 log "Done."

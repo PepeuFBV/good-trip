@@ -118,9 +118,9 @@ main() {
 
   # 1. Remove managed symlinks
   if ask "Remove managed symlinks (~/.zshrc, ~/.gitconfig, ~/.shell/aliases)?"; then
-    restore_link "~/.zshrc"
-    restore_link "~/.gitconfig"
-    restore_link "~/.shell/aliases"
+    restore_link "$HOME/.zshrc"
+    restore_link "$HOME/.gitconfig"
+    restore_link "$HOME/.shell/aliases"
   fi
 
   # 2. Remove CLI binary

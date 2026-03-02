@@ -51,7 +51,8 @@ jobs:
 
             - name: Run shellcheck on all shell scripts
               run: |
-                  find . -name "*.sh" -not -path "./.git/*" | \
+                  # Exclude node_modules to avoid linting third-party code
+                  find . -name "*.sh" -not -path "./.git/*" -not -path "./node_modules/*" | \
                     xargs shellcheck --severity=warning
 
             - name: Check bin/good-trip

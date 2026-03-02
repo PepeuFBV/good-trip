@@ -215,12 +215,12 @@ good-trip ssh-keygen --name deploy_key
 good-trip ssh-keygen --name deploy_key --dry-run
 ```
 
-| Option | Description |
-| --- | --- |
-| `--comment <text>` | Key comment (default: `user@hostname`) |
-| `--name <filename>` | Filename in `~/.ssh/` (required) |
+| Option              | Description                                   |
+| ------------------- | --------------------------------------------- |
+| `--comment <text>`  | Key comment (default: `user@hostname`)        |
+| `--name <filename>` | Filename in `~/.ssh/` (required)              |
 | `--authorized-keys` | Append public key to `~/.ssh/authorized_keys` |
-| `--dry-run` | Print what would happen, write nothing |
+| `--dry-run`         | Print what would happen, write nothing        |
 
 ### Register key with GitHub (`ssh-github`)
 
@@ -244,13 +244,13 @@ good-trip ssh-github --list
 good-trip ssh-github --dry-run
 ```
 
-| Option | Description |
-| --- | --- |
-| `--key <path>` | Path to `.pub` file (default: `~/.ssh/id_ed25519.pub`) |
-| `--title <text>` | Key title on GitHub (default: `user@host — date`) |
-| `--token <token>` | GitHub PAT, or set `$GITHUB_TOKEN` env var |
-| `--list` | List keys currently on your account |
-| `--dry-run` | Show API payload without sending |
+| Option            | Description                                            |
+| ----------------- | ------------------------------------------------------ |
+| `--key <path>`    | Path to `.pub` file (default: `~/.ssh/id_ed25519.pub`) |
+| `--title <text>`  | Key title on GitHub (default: `user@host — date`)      |
+| `--token <token>` | GitHub PAT, or set `$GITHUB_TOKEN` env var             |
+| `--list`          | List keys currently on your account                    |
+| `--dry-run`       | Show API payload without sending                       |
 
 Create a token at: <https://github.com/settings/tokens/new?scopes=write:public_key>
 
