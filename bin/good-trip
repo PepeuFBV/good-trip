@@ -31,6 +31,7 @@ cmd_help() {
   echo ""
   echo -e "${BOLD}Commands:${NC}"
   echo "  configure git [options]               Set up git identity (name, email, GPG key)"
+  echo "  configure p10k [options]              Manage Powerlevel10k config file"
   echo "  update [--yes] [--check] [--silent]   Check and apply updates"
   echo "  update --list                         List available versions"
   echo "  update --version <x.y.z>              Install a specific version"
@@ -52,11 +53,19 @@ cmd_help() {
   echo "  --show             Print current local git config"
   echo "  --reset            Delete local git config"
   echo ""
+  echo -e "${BOLD}Configure options (p10k):${NC}"
+  echo "  --import <file>    Copy <file> to ~/.p10k.zsh (backs up existing)"
+  echo "  --show             Print the current ~/.p10k.zsh header"
+  echo "  --reset            Remove ~/.p10k.zsh"
+  echo ""
   echo -e "${BOLD}Examples:${NC}"
   echo "  good-trip configure git                # Interactive git identity setup"
   echo "  good-trip configure git --show         # Show current git identity config"
   echo "  good-trip configure git --name 'Alice' --email alice@example.com"
   echo "  good-trip configure git --no-sign      # Disable GPG signing"
+  echo "  good-trip configure p10k --import ~/my.p10k.zsh  # Import p10k config"
+  echo "  good-trip configure p10k --show        # Preview current p10k config"
+  echo "  good-trip configure p10k --reset       # Remove ~/.p10k.zsh"
   echo "  good-trip update                       # Interactive update"
   echo "  good-trip update --yes                 # Auto-apply update"
   echo "  good-trip update --check               # Only check, never apply"
@@ -141,17 +150,21 @@ cmd_configure() {
     git)
       bash "${GOOD_TRIP_DIR}/scripts/configure-git.sh" "$@"
       ;;
+    p10k)
+      bash "${GOOD_TRIP_DIR}/scripts/configure-p10k.sh" "$@"
+      ;;
     "")
       error "Usage: good-trip configure <service> [options]"
       echo ""
       echo -e "  Available services:"
       echo -e "    git   — git identity (name, email, GPG signing key)"
+      echo -e "    p10k  — Powerlevel10k config (import, show, reset)"
       echo ""
       exit 1
       ;;
     *)
       error "Unknown service: ${service}"
-      echo "  Available services: git"
+      echo "  Available services: git, p10k"
       exit 1
       ;;
   esac
