@@ -17,6 +17,11 @@ warn()    { echo -e "${YELLOW}[python]${NC} ⚠ $*"; }
 error()   { echo -e "${RED}[python]${NC} ✗ $*" >&2; }
 has()     { command -v "$1" &>/dev/null; }
 
+# ── Configurable defaults ─────────────────────────────────────────────────────
+# Space-separated list of pip packages to install globally after setup.
+# Override with: PYTHON_GLOBAL_PACKAGES="black isort mypy" ./install.sh
+PYTHON_GLOBAL_PACKAGES="${PYTHON_GLOBAL_PACKAGES:-}"
+
 # ── Detect OS ─────────────────────────────────────────────────────────────────
 detect_os() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -103,6 +108,25 @@ verify_venv() {
   fi
 }
 
+# ── Install default global packages ──────────────────────────────────────────
+install_global_packages() {
+  if [[ -z "$PYTHON_GLOBAL_PACKAGES" ]]; then
+    return 0
+  fi
+
+  local python_bin
+  python_bin="$(command -v python3 || command -v python)"
+  if [[ -z "$python_bin" ]]; then
+    warn "Python binary not found — skipping global package install."
+    return 0
+  fi
+
+  log "Installing default global packages: ${PYTHON_GLOBAL_PACKAGES}"
+  # shellcheck disable=SC2086
+  "$python_bin" -m pip install --upgrade $PYTHON_GLOBAL_PACKAGES
+  success "Global packages installed."
+}
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 print_versions() {
   echo ""
@@ -121,6 +145,7 @@ main() {
   install_python
   upgrade_pip
   verify_venv
+  install_global_packages
   print_versions
 }
 
