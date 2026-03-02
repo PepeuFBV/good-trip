@@ -74,7 +74,7 @@ declare -a SELECTED=()
 #   q / Ctrl+C  — quit
 #
 picker() {
-  local -a labels descs required defaults
+  local -a labels descs required
   local n=${#COMPONENTS[@]}
 
   for i in "${!COMPONENTS[@]}"; do
@@ -82,7 +82,6 @@ picker() {
     labels[$i]="$label"
     descs[$i]="$desc"
     required[$i]="$req"
-    defaults[$i]="$default"
     SELECTED[$i]="$default"
   done
 
@@ -116,7 +115,7 @@ ART
 
     local col_w=22
     for i in $(seq 0 $((n - 1))); do
-      local check desc_text prefix suffix lock=""
+      local check prefix suffix lock=""
 
       if [[ "${SELECTED[$i]}" == "1" ]]; then
         check="${GREEN}✓${NC}"
@@ -231,11 +230,14 @@ ensure_pkg_manager() {
 check_sudo() {
   if [[ "$EUID" -eq 0 ]]; then
     warn "Running as root."
+    # SUDO is intentionally kept for potential elevated-command usage
+    # shellcheck disable=SC2034
     SUDO=""
   elif has sudo; then
     SUDO="sudo"
   else
     warn "sudo not available. Some steps may fail."
+    # shellcheck disable=SC2034
     SUDO=""
   fi
 }

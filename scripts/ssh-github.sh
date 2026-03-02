@@ -142,19 +142,22 @@ if $LIST_ONLY; then
     echo "$RESPONSE"
     exit 0
   fi
-
-  echo "$RESPONSE" | python3 - << 'PYEOF'
+  if has python3; then
+    printf '%s' "$RESPONSE" | python3 -c '
 import sys, json
 keys = json.load(sys.stdin)
 if not keys:
     print("  (no SSH keys registered on this account)")
 else:
     for k in keys:
-        print(f"  [{k['id']}]  {k['title']}")
-        print(f"         {k['key'][:60]}...")
-        print(f"         Created: {k.get('created_at','?')}")
+        print(f"  [{k[\"id\"]}]  {k[\"title\"]}")
+        print(f"         {k[\"key\"][:60]}...")
+        print(f"         Created: {k.get(\"created_at\",\"?\")}")
         print()
-PYEOF
+'
+  else
+    echo "$RESPONSE"
+  fi
   exit 0
 fi
 

@@ -8,6 +8,9 @@
 
 GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/good-trip"
+# Notification filename kept for external readers; not used directly in this
+# script but used by the shell startup to detect pending updates.
+# shellcheck disable=SC2034
 NOTIFICATION_FILE="${CACHE_DIR}/update-available"
 
 # Only run if we have network tools

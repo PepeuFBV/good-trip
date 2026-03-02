@@ -1,94 +1,81 @@
 # [1.9.0](https://github.com/PepeuFBV/good-trip/compare/v1.8.0...v1.9.0) (2026-03-02)
 
-
 ### Features
 
-* **cli:** add p10k config import subcommand ([cd2ffa0](https://github.com/PepeuFBV/good-trip/commit/cd2ffa0b62de6ff4402cf55d9c3d6356ce3317d6)), closes [#2](https://github.com/PepeuFBV/good-trip/issues/2)
+- **cli:** add p10k config import subcommand ([cd2ffa0](https://github.com/PepeuFBV/good-trip/commit/cd2ffa0b62de6ff4402cf55d9c3d6356ce3317d6)), closes [#2](https://github.com/PepeuFBV/good-trip/issues/2)
 
 # [1.8.0](https://github.com/PepeuFBV/good-trip/compare/v1.7.0...v1.8.0) (2026-03-02)
 
-
 ### Features
 
-* **bootstrap:** set zsh as default shell if already installed ([5ad9beb](https://github.com/PepeuFBV/good-trip/commit/5ad9beb0d64dfadc7f6643e9d8f5db2c9ee95ef7)), closes [#1](https://github.com/PepeuFBV/good-trip/issues/1)
+- **bootstrap:** set zsh as default shell if already installed ([5ad9beb](https://github.com/PepeuFBV/good-trip/commit/5ad9beb0d64dfadc7f6643e9d8f5db2c9ee95ef7)), closes [#1](https://github.com/PepeuFBV/good-trip/issues/1)
 
 # [1.7.0](https://github.com/PepeuFBV/good-trip/compare/v1.6.2...v1.7.0) (2026-03-02)
 
-
 ### Features
 
-* **git:** add interactive git identity configuration and update related scripts ([6b42f20](https://github.com/PepeuFBV/good-trip/commit/6b42f20a8765f482a8460098a62011ef0a020711))
+- **git:** add interactive git identity configuration and update related scripts ([6b42f20](https://github.com/PepeuFBV/good-trip/commit/6b42f20a8765f482a8460098a62011ef0a020711))
 
 ## [1.6.2](https://github.com/PepeuFBV/good-trip/compare/v1.6.1...v1.6.2) (2026-02-24)
 
-
 ### Bug Fixes
 
-* **install:** move 'already installed' check to a new section ([9bdd869](https://github.com/PepeuFBV/good-trip/commit/9bdd869aedb3ffc326935dbb5a217405fd3164ef))
+- **install:** move 'already installed' check to a new section ([9bdd869](https://github.com/PepeuFBV/good-trip/commit/9bdd869aedb3ffc326935dbb5a217405fd3164ef))
 
 ## [1.6.1](https://github.com/PepeuFBV/good-trip/compare/v1.6.0...v1.6.1) (2026-02-24)
 
-
 ### Bug Fixes
 
-* **update:** handle detached HEAD state during updates ([9c1ec2d](https://github.com/PepeuFBV/good-trip/commit/9c1ec2d04d601d8fc38fcba2d94ee4628194945a))
+- **update:** handle detached HEAD state during updates ([9c1ec2d](https://github.com/PepeuFBV/good-trip/commit/9c1ec2d04d601d8fc38fcba2d94ee4628194945a))
 
 # [1.6.0](https://github.com/PepeuFBV/good-trip/compare/v1.5.0...v1.6.0) (2026-02-24)
 
-
 ### Features
 
-* **uninstall:** add uninstall command with interactive and non-interactive options ([7dd56c9](https://github.com/PepeuFBV/good-trip/commit/7dd56c93a0ed0185e6ace97aecde3f138b11f3ef))
+- **uninstall:** add uninstall command with interactive and non-interactive options ([7dd56c9](https://github.com/PepeuFBV/good-trip/commit/7dd56c93a0ed0185e6ace97aecde3f138b11f3ef))
 
 # [1.5.0](https://github.com/PepeuFBV/good-trip/compare/v1.4.2...v1.5.0) (2026-02-24)
 
-
 ### Features
 
-* **update:** add version management commands for listing, installing, and locking versions ([1dea0b3](https://github.com/PepeuFBV/good-trip/commit/1dea0b3b5689f7a1458cab64946ec8d5ec942692))
+- **update:** add version management commands for listing, installing, and locking versions ([1dea0b3](https://github.com/PepeuFBV/good-trip/commit/1dea0b3b5689f7a1458cab64946ec8d5ec942692))
 
 ## [1.4.2](https://github.com/PepeuFBV/good-trip/compare/v1.4.1...v1.4.2) (2026-02-24)
 
-
 ### Bug Fixes
 
-* **update:** enhance version comparison by normalizing version strings ([fea86f7](https://github.com/PepeuFBV/good-trip/commit/fea86f76711cf53b5c7a6919609e58c532c9841d))
+- **update:** enhance version comparison by normalizing version strings ([fea86f7](https://github.com/PepeuFBV/good-trip/commit/fea86f76711cf53b5c7a6919609e58c532c9841d))
 
 ## [1.4.1](https://github.com/PepeuFBV/good-trip/compare/v1.4.0...v1.4.1) (2026-02-24)
 
-
 ### Bug Fixes
 
-* **update:** ensure update check timestamp is recorded on exit ([45ccbea](https://github.com/PepeuFBV/good-trip/commit/45ccbea67d27067527ea4a9371ee7a098f3587ce))
+- **update:** ensure update check timestamp is recorded on exit ([45ccbea](https://github.com/PepeuFBV/good-trip/commit/45ccbea67d27067527ea4a9371ee7a098f3587ce))
 
 # [1.4.0](https://github.com/PepeuFBV/good-trip/compare/v1.3.2...v1.4.0) (2026-02-24)
 
-
 ### Features
 
-* **ssh:** add SSH key management commands and scripts ([6ba5758](https://github.com/PepeuFBV/good-trip/commit/6ba575868e5a68efe415f3488faab1f708a87feb))
+- **ssh:** add SSH key management commands and scripts ([6ba5758](https://github.com/PepeuFBV/good-trip/commit/6ba575868e5a68efe415f3488faab1f708a87feb))
 
 ## [1.3.2](https://github.com/PepeuFBV/good-trip/compare/v1.3.1...v1.3.2) (2026-02-24)
 
-
 ### Bug Fixes
 
-* **release:** update release process to correctly tag and track minor version series ([c34152d](https://github.com/PepeuFBV/good-trip/commit/c34152da2efb733b31401990e3a5da922056c042))
+- **release:** update release process to correctly tag and track minor version series ([c34152d](https://github.com/PepeuFBV/good-trip/commit/c34152da2efb733b31401990e3a5da922056c042))
 
 ## [1.3.1](https://github.com/PepeuFBV/good-trip/compare/v1.3.0...v1.3.1) (2026-02-24)
 
-
 ### Bug Fixes
 
-* **release:** correct package name for conventional changelog in release workflow ([8da3ef4](https://github.com/PepeuFBV/good-trip/commit/8da3ef46cc717abb84113db9626bb66e7a288085))
-* **release:** update package.json using GitHub Contents API to avoid git pushes ([3680001](https://github.com/PepeuFBV/good-trip/commit/36800017e12f661d7315114f1e7fbe7525c0dab1))
+- **release:** correct package name for conventional changelog in release workflow ([8da3ef4](https://github.com/PepeuFBV/good-trip/commit/8da3ef46cc717abb84113db9626bb66e7a288085))
+- **release:** update package.json using GitHub Contents API to avoid git pushes ([3680001](https://github.com/PepeuFBV/good-trip/commit/36800017e12f661d7315114f1e7fbe7525c0dab1))
 
 # [1.3.0](https://github.com/PepeuFBV/good-trip/compare/v1.2.0...v1.3.0) (2026-02-23)
 
-
 ### Features
 
-* add configuration files for Husky and Prettier ([50ef548](https://github.com/PepeuFBV/good-trip/commit/50ef5483f0b8bc9909d16dfba80acca11b1e9a50))
+- add configuration files for Husky and Prettier ([50ef548](https://github.com/PepeuFBV/good-trip/commit/50ef5483f0b8bc9909d16dfba80acca11b1e9a50))
 
 # [1.2.0](https://github.com/PepeuFBV/good-trip/compare/v1.1.0...v1.2.0) (2026-02-20)
 
