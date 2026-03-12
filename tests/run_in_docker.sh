@@ -5,7 +5,7 @@ set -euo pipefail
 LOG_DIR="tests/logs"
 mkdir -p "$LOG_DIR"
 TS=$(date -u +%Y%m%dT%H%M%SZ)
-LOG_FILE="$LOG_DIR/install_test_$TS.log"
+# combined log path (used later as COMBINED_LOG)
 
 echo "Building and running docker compose test (installer + cli-external)..."
 echo "Building images..."
@@ -25,7 +25,7 @@ docker compose up --no-color --build -d installer
 
 # Find installer container id (compose may not return immediately)
 CID_INSTALLER=""
-for i in {1..30}; do
+for _ in {1..30}; do
 	CID_INSTALLER=$(docker compose ps -q installer || docker ps -a --filter "name=good-trip-installer-1" -q | head -n1 || true)
 	if [[ -n "$CID_INSTALLER" ]]; then
 		break
@@ -63,7 +63,7 @@ if [[ -n "$CID_INSTALLER" ]]; then
 	# Wait up to 30s for the installed CLI to appear in any expected target path inside the installer container.
 	targets=("/root/.local/bin/good-trip" "/home/tester/.local/bin/good-trip" "/usr/local/bin/good-trip" "/home/tester/workspace/bin/good-trip")
 	found_path=""
-	for i in {1..30}; do
+	for _ in {1..30}; do
 		for t in "${targets[@]}"; do
 			# Prefer docker exec if the container is running
 			if docker inspect -f '{{.State.Running}}' "$CID_INSTALLER" 2>/dev/null | grep -q true; then
