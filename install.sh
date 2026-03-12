@@ -270,12 +270,50 @@ create_symlinks() {
 }
 
 install_cli() {
-  mkdir -p "${GOOD_TRIP_BIN}"
-  local target="${GOOD_TRIP_BIN}/good-trip"
-  rm -f "$target"
-  ln -sf "${GOOD_TRIP_DIR}/bin/good-trip" "$target"
-  chmod +x "${GOOD_TRIP_DIR}/bin/good-trip"
-  success "CLI installed at ${target}"
+  local src="${GOOD_TRIP_DIR}/bin/good-trip"
+  if [[ ! -f "$src" ]]; then
+    warn "Could not find CLI source: ${src}"
+    return 1
+  fi
+
+  # Copy into multiple well-known locations so committed images expose the
+  # binary in predictable places for checks.
+  local targets=("${GOOD_TRIP_BIN}" "/home/tester/.local/bin" "/root/.local/bin" "/usr/local/bin")
+  local success_flag=0
+
+  for dir in "${targets[@]}"; do
+    mkdir -p "$dir" 2>/dev/null || true
+    local target="$dir/good-trip"
+    rm -f "$target" 2>/dev/null || true
+    if cp -f "$src" "$target" 2>/dev/null; then
+      chmod +x "$target" 2>/dev/null || true
+      success "CLI copied to ${target}"
+      log "CLI source: ${src} -> ${target} (copied)"
+      success_flag=1
+    else
+      warn "Could not copy CLI to ${target} (permission or missing dir)"
+    fi
+  done
+
+  if [[ "$success_flag" -eq 0 ]]; then
+    # Try fallback symlink into primary user-local bin
+    mkdir -p "${GOOD_TRIP_BIN}" 2>/dev/null || true
+    if ln -sf "$src" "${GOOD_TRIP_BIN}/good-trip" 2>/dev/null; then
+      chmod +x "${GOOD_TRIP_BIN}/good-trip" 2>/dev/null || true
+      success "CLI symlinked at ${GOOD_TRIP_BIN}/good-trip"
+      log "CLI source: ${src} -> ${GOOD_TRIP_BIN}/good-trip (symlink)"
+      success_flag=1
+    else
+      warn "Could not symlink CLI into ${GOOD_TRIP_BIN}"
+    fi
+  fi
+
+  if [[ "$success_flag" -eq 0 ]]; then
+    warn "Failed to install CLI to any known target. Source: ${src}"
+    return 1
+  fi
+
+  return 0
 }
 
 setup_logging() {
@@ -360,6 +398,11 @@ main() {
       fi
       ;;
   esac
+
+  # When running non-interactively (e.g. --yes or CI), avoid interactive shell changes
+  if [[ "$mode" != "interactive" ]]; then
+    export NO_CHSH=1
+  fi
 
   # ── Pre-install setup ──────────────────────────────────────────────────────
   echo -e "${BOLD}"

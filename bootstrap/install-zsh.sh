@@ -12,16 +12,31 @@ log()     { echo -e "${BLUE}[zsh]${NC} $*"; }
 success() { echo -e "${GREEN}[zsh]${NC} ✓ $*"; }
 has()     { command -v "$1" &>/dev/null; }
 
+# Return 0 if running inside a container (docker/containerd/podman)
+is_container() {
+  if [[ -f "/.dockerenv" ]]; then
+    return 0
+  fi
+  if grep -qaE 'docker|kubepods|containerd|podman' /proc/1/cgroup 2>/dev/null; then
+    return 0
+  fi
+  return 1
+}
+
 if has zsh; then
   success "ZSH already installed: $(zsh --version)"
   # Ensure zsh is the default shell even when it was pre-installed
   if [[ "$SHELL" != "$(which zsh)" ]]; then
     log "ZSH is installed but not the default shell. Setting it as default..."
-    if chsh -s "$(which zsh)"; then
-      success "Default shell changed to ZSH (restart session to apply)"
-    else
-      log "Could not auto-change shell. Run: chsh -s $(which zsh)"
-    fi
+      if is_container || [[ "${NO_CHSH:-}" == "1" ]] || [[ "${NO_CHSH:-}" == "true" ]]; then
+        log "Skipping shell change because running in container or NO_CHSH is set"
+      else
+        if chsh -s "$(which zsh)"; then
+          success "Default shell changed to ZSH (restart session to apply)"
+        else
+          log "Could not auto-change shell. Run: chsh -s $(which zsh)"
+        fi
+      fi
   fi
   exit 0
 fi
@@ -46,9 +61,13 @@ success "ZSH installed: $(zsh --version)"
 # Set zsh as the default shell
 if [[ "$SHELL" != "$(which zsh)" ]]; then
   log "Setting default shell to ZSH..."
-  if chsh -s "$(which zsh)"; then
-    success "Default shell changed to ZSH (restart session to apply)"
+  if is_container || [[ "${NO_CHSH:-}" == "1" ]] || [[ "${NO_CHSH:-}" == "true" ]]; then
+    log "Skipping shell change because running in container or NO_CHSH is set"
   else
-    log "Could not auto-change shell. Run: chsh -s $(which zsh)"
+    if chsh -s "$(which zsh)"; then
+      success "Default shell changed to ZSH (restart session to apply)"
+    else
+      log "Could not auto-change shell. Run: chsh -s $(which zsh)"
+    fi
   fi
 fi

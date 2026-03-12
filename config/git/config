@@ -44,7 +44,7 @@
     colorMoved = zebra
 
 [merge]
-    conflictstyle = zdiff3
+    conflictstyle = diff3
 
 [log]
     abbrevCommit = true

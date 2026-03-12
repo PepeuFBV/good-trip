@@ -5,7 +5,9 @@
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "bash tests/run_in_docker.sh",
+    "test:ci": "bash -lc \"bash -n install.sh && ./install.sh --help >/dev/null\""
   },
   "devDependencies": {
     "husky": "^8.0.3",

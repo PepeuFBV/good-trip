@@ -24,3 +24,6 @@ package-lock.json
 
 # good-trip runtime cache
 .cache/
+
+# Test logs
+tests/logs/
