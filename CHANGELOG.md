@@ -1,3 +1,23 @@
+# [1.11.0](https://github.com/PepeuFBV/good-trip/compare/v1.10.0...v1.11.0) (2026-03-13)
+
+
+### Bug Fixes
+
+* correct command syntax in docker compose for cli checks ([0a7733b](https://github.com/PepeuFBV/good-trip/commit/0a7733b4616ffb6b016cd34c133ab0c5fc73db71))
+* correct command syntax in docker compose for cli checks ([a1d500f](https://github.com/PepeuFBV/good-trip/commit/a1d500f97b7f601476e717c36d64ea7968d40916))
+* shadow variable fix for `run_in_docker.sh` ([69fc8aa](https://github.com/PepeuFBV/good-trip/commit/69fc8aa48bbb41072df7830ff89eaf02afc2c574))
+* sucessfull messsage printed for an outcome in `install-python.sh` ([5f5c057](https://github.com/PepeuFBV/good-trip/commit/5f5c0574bdb72ad8caa21c3d1c0986e322e8dfef))
+
+
+### Features
+
+* add docker-based installation and testing workflow ([ccb2fcf](https://github.com/PepeuFBV/good-trip/commit/ccb2fcf3e92b6bf2f2aeb1745bec0bbc8c0ba17c))
+* add environment variable for node.js version enforcement in ci ([b4c3c90](https://github.com/PepeuFBV/good-trip/commit/b4c3c90b0511db2d2e0ef201db8c21a5bb2c127c))
+* add environment variables and workflow triggers for installation ci ([69b7a8a](https://github.com/PepeuFBV/good-trip/commit/69b7a8a46ef9bcb204ae8f80351fbfcd7aec7427))
+* enhance docker installation script and update readme for clarity ([eb12d65](https://github.com/PepeuFBV/good-trip/commit/eb12d656f24efa2c47a6d2c813390aec29971e69))
+* remove push and pull_request triggers from installation workflow ([36b3061](https://github.com/PepeuFBV/good-trip/commit/36b3061e69f03b56cb5036a40cedf15f61e779ed))
+* update checkout step in installation workflow to include token and fetch options ([cdad3af](https://github.com/PepeuFBV/good-trip/commit/cdad3af4894da38c9d3665e6e3bbfe3bac9c0db1))
+
 # [1.10.0](https://github.com/PepeuFBV/good-trip/compare/v1.9.0...v1.10.0) (2026-03-02)
 
 ### Features
