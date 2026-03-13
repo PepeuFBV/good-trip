@@ -73,13 +73,13 @@ if [[ -n "$CID_INSTALLER" ]]; then
 				fi
 			else
 				# Try copying the file out as a presence check (copy will fail if file missing)
-				TMPDIR=$(mktemp -d)
-				if docker cp "$CID_INSTALLER":"$t" "$TMPDIR/" >/dev/null 2>&1; then
+				tmp_check_dir=$(mktemp -d)
+				if docker cp "$CID_INSTALLER":"$t" "$tmp_check_dir/" >/dev/null 2>&1; then
 					found_path="$t"
-					rm -rf "$TMPDIR"
+					rm -rf "$tmp_check_dir"
 					break 2
 				fi
-				rm -rf "$TMPDIR"
+				rm -rf "$tmp_check_dir"
 			fi
 		done
 		sleep 1
