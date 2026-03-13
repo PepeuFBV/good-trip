@@ -13,6 +13,13 @@
 # =============================================================================
 set -euo pipefail
 
+# If stdin is not a TTY (e.g. piped via curl | bash), set NO_CHSH early so
+# bootstraps don't attempt interactive `chsh` calls that prompt for a
+# password and hang when there's no controlling terminal.
+if [[ ! -t 0 ]]; then
+  export NO_CHSH=1
+fi
+
 # ── Constants ─────────────────────────────────────────────────────────────────
 REPO_URL="https://github.com/PepeuFBV/good-trip.git"
 GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
@@ -392,6 +399,11 @@ main() {
       if [[ ! -t 0 ]]; then
         warn "No TTY detected (running via pipe?). Using --yes mode."
         warn "For interactive mode: clone the repo and run ./install.sh"
+        # Treat piped/non-TTY runs as non-interactive/full installs so we
+        # don't attempt interactive actions like `chsh` which prompt for
+        # a password and hang when stdin isn't a TTY. Setting `mode` to
+        # "all" ensures `NO_CHSH` is exported below.
+        mode="all"
         for i in "${!COMPONENTS[@]}"; do SELECTED[$i]="1"; done
       else
         picker
