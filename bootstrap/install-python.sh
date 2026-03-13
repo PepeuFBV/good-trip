@@ -132,7 +132,6 @@ install_global_packages() {
   else
     success "Global packages installed."
   fi
-  success "Global packages installed."
 }
 
 # ── Summary ───────────────────────────────────────────────────────────────────
