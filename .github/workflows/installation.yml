@@ -9,12 +9,6 @@ on:
             - "CI"
         types:
             - completed
-    push:
-        branches-ignore:
-            - main
-    pull_request:
-        branches:
-            - main
     workflow_dispatch:
 
 jobs:
