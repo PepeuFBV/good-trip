@@ -88,7 +88,11 @@ upgrade_pip() {
   fi
 
   log "Upgrading pip..."
-  "$python_bin" -m pip install --upgrade pip --quiet
+  # Try to upgrade pip but don't fail the whole installer if the environment
+  # prevents system-wide pip upgrades (PEP 668). Report a warning instead.
+  if ! "$python_bin" -m pip install --upgrade pip --quiet; then
+    warn "pip upgrade failed or is disallowed in this environment — continuing"
+  fi
 }
 
 # ── Verify venv works ─────────────────────────────────────────────────────────
@@ -123,8 +127,11 @@ install_global_packages() {
 
   log "Installing default global packages: ${PYTHON_GLOBAL_PACKAGES}"
   # shellcheck disable=SC2086
-  "$python_bin" -m pip install --upgrade $PYTHON_GLOBAL_PACKAGES
-  success "Global packages installed."
+  if ! "$python_bin" -m pip install --upgrade $PYTHON_GLOBAL_PACKAGES; then
+    warn "Installing global Python packages failed — continuing"
+  else
+    success "Global packages installed."
+  fi
 }
 
 # ── Summary ───────────────────────────────────────────────────────────────────
