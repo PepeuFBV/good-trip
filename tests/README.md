@@ -40,6 +40,6 @@ CI notes
 - `npm run test:ci` is intended to be safe to run on standard CI runners without Docker.
 - If your CI runner supports Docker, prefer `npm test` on a self-hosted runner or configure
   Docker-in-Docker / privileged runners accordingly.
-
-If you want, I can add a GitHub Actions workflow that runs `npm run test:ci` on each PR,
-and optionally a separate workflow for running the full Docker test on a self-hosted runner.
+- A typical CI configuration runs `npm run test:ci` on each pull request, with an optional
+  additional job or workflow that runs `npm test` on Docker-capable self-hosted runners.
+  See the CI workflow definitions under `.github/workflows/` in this repository.
