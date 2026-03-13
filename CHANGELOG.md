@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/PepeuFBV/good-trip/compare/v1.11.0...v1.11.1) (2026-03-13)
+
+
+### Bug Fixes
+
+* handle non-TTY input for non-interactive installations in install.sh ([7507a42](https://github.com/PepeuFBV/good-trip/commit/7507a42e2300f90624d6b552ce4c416837c24ee8))
+
 # [1.11.0](https://github.com/PepeuFBV/good-trip/compare/v1.10.0...v1.11.0) (2026-03-13)
 
 
