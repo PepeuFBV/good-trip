@@ -126,7 +126,14 @@ fi
 chpwd() { ls; }
 
 # ── Powerlevel10k config ──────────────────────────────────────────────────────
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+# ~/.p10k.zsh is copied from the host on container start by
+# bootstrap/import-host-zsh-config.sh (via postStartCommand).
+# If the copy is missing, suppress the wizard instead of prompting.
+if [[ -f ~/.p10k.zsh ]]; then
+  source ~/.p10k.zsh
+else
+  typeset -g POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+fi
 
 # ── good-trip: daily update check (background, non-blocking) ─────────────────
 _gt_check_update() {
