@@ -1,29 +1,26 @@
 ## [1.11.1](https://github.com/PepeuFBV/good-trip/compare/v1.11.0...v1.11.1) (2026-03-13)
 
-
 ### Bug Fixes
 
-* handle non-TTY input for non-interactive installations in install.sh ([7507a42](https://github.com/PepeuFBV/good-trip/commit/7507a42e2300f90624d6b552ce4c416837c24ee8))
+- handle non-TTY input for non-interactive installations in install.sh ([7507a42](https://github.com/PepeuFBV/good-trip/commit/7507a42e2300f90624d6b552ce4c416837c24ee8))
 
 # [1.11.0](https://github.com/PepeuFBV/good-trip/compare/v1.10.0...v1.11.0) (2026-03-13)
 
-
 ### Bug Fixes
 
-* correct command syntax in docker compose for cli checks ([0a7733b](https://github.com/PepeuFBV/good-trip/commit/0a7733b4616ffb6b016cd34c133ab0c5fc73db71))
-* correct command syntax in docker compose for cli checks ([a1d500f](https://github.com/PepeuFBV/good-trip/commit/a1d500f97b7f601476e717c36d64ea7968d40916))
-* shadow variable fix for `run_in_docker.sh` ([69fc8aa](https://github.com/PepeuFBV/good-trip/commit/69fc8aa48bbb41072df7830ff89eaf02afc2c574))
-* sucessfull messsage printed for an outcome in `install-python.sh` ([5f5c057](https://github.com/PepeuFBV/good-trip/commit/5f5c0574bdb72ad8caa21c3d1c0986e322e8dfef))
-
+- correct command syntax in docker compose for cli checks ([0a7733b](https://github.com/PepeuFBV/good-trip/commit/0a7733b4616ffb6b016cd34c133ab0c5fc73db71))
+- correct command syntax in docker compose for cli checks ([a1d500f](https://github.com/PepeuFBV/good-trip/commit/a1d500f97b7f601476e717c36d64ea7968d40916))
+- shadow variable fix for `run_in_docker.sh` ([69fc8aa](https://github.com/PepeuFBV/good-trip/commit/69fc8aa48bbb41072df7830ff89eaf02afc2c574))
+- sucessfull messsage printed for an outcome in `install-python.sh` ([5f5c057](https://github.com/PepeuFBV/good-trip/commit/5f5c0574bdb72ad8caa21c3d1c0986e322e8dfef))
 
 ### Features
 
-* add docker-based installation and testing workflow ([ccb2fcf](https://github.com/PepeuFBV/good-trip/commit/ccb2fcf3e92b6bf2f2aeb1745bec0bbc8c0ba17c))
-* add environment variable for node.js version enforcement in ci ([b4c3c90](https://github.com/PepeuFBV/good-trip/commit/b4c3c90b0511db2d2e0ef201db8c21a5bb2c127c))
-* add environment variables and workflow triggers for installation ci ([69b7a8a](https://github.com/PepeuFBV/good-trip/commit/69b7a8a46ef9bcb204ae8f80351fbfcd7aec7427))
-* enhance docker installation script and update readme for clarity ([eb12d65](https://github.com/PepeuFBV/good-trip/commit/eb12d656f24efa2c47a6d2c813390aec29971e69))
-* remove push and pull_request triggers from installation workflow ([36b3061](https://github.com/PepeuFBV/good-trip/commit/36b3061e69f03b56cb5036a40cedf15f61e779ed))
-* update checkout step in installation workflow to include token and fetch options ([cdad3af](https://github.com/PepeuFBV/good-trip/commit/cdad3af4894da38c9d3665e6e3bbfe3bac9c0db1))
+- add docker-based installation and testing workflow ([ccb2fcf](https://github.com/PepeuFBV/good-trip/commit/ccb2fcf3e92b6bf2f2aeb1745bec0bbc8c0ba17c))
+- add environment variable for node.js version enforcement in ci ([b4c3c90](https://github.com/PepeuFBV/good-trip/commit/b4c3c90b0511db2d2e0ef201db8c21a5bb2c127c))
+- add environment variables and workflow triggers for installation ci ([69b7a8a](https://github.com/PepeuFBV/good-trip/commit/69b7a8a46ef9bcb204ae8f80351fbfcd7aec7427))
+- enhance docker installation script and update readme for clarity ([eb12d65](https://github.com/PepeuFBV/good-trip/commit/eb12d656f24efa2c47a6d2c813390aec29971e69))
+- remove push and pull_request triggers from installation workflow ([36b3061](https://github.com/PepeuFBV/good-trip/commit/36b3061e69f03b56cb5036a40cedf15f61e779ed))
+- update checkout step in installation workflow to include token and fetch options ([cdad3af](https://github.com/PepeuFBV/good-trip/commit/cdad3af4894da38c9d3665e6e3bbfe3bac9c0db1))
 
 # [1.10.0](https://github.com/PepeuFBV/good-trip/compare/v1.9.0...v1.10.0) (2026-03-02)
 
@@ -43,7 +40,7 @@
 
 - **bootstrap:** set zsh as default shell if already installed ([5ad9beb](https://github.com/PepeuFBV/good-trip/commit/5ad9beb0d64dfadc7f6643e9d8f5db2c9ee95ef7)), closes [#1](https://github.com/PepeuFBV/good-trip/issues/1)
 
-# [1.7.0](https://github.com/PepeuFBV/good-trip/compare/v1.6.2...v1.7.0) (2026-03-02)
+# [1.7.0](https://github.com/PepeuFBV/good-trip/compare/v1.6.2../v1.7.0) (2026-03-02)
 
 ### Features
 
@@ -55,25 +52,25 @@
 
 - **install:** move 'already installed' check to a new section ([9bdd869](https://github.com/PepeuFBV/good-trip/commit/9bdd869aedb3ffc326935dbb5a217405fd3164ef))
 
-## [1.6.1](https://github.com/PepeuFBV/good-trip/compare/v1.6.0...v1.6.1) (2026-02-24)
+## [1.6.1](https://github.com/PepeuFBV/good-trip/compare/v1.6.0../v1.6.1) (2026-02-24)
 
 ### Bug Fixes
 
 - **update:** handle detached HEAD state during updates ([9c1ec2d](https://github.com/PepeuFBV/good-trip/commit/9c1ec2d04d601d8fc38fcba2d94ee4628194945a))
 
-# [1.6.0](https://github.com/PepeuFBV/good-trip/compare/v1.5.0...v1.6.0) (2026-02-24)
+# [1.6.0](https://github.com/PepeuFBV/good-trip/compare/v1.5.0../v1.6.0) (2026-02-24)
 
 ### Features
 
 - **uninstall:** add uninstall command with interactive and non-interactive options ([7dd56c9](https://github.com/PepeuFBV/good-trip/commit/7dd56c93a0ed0185e6ace97aecde3f138b11f3ef))
 
-# [1.5.0](https://github.com/PepeuFBV/good-trip/compare/v1.4.2...v1.5.0) (2026-02-24)
+# [1.5.0](https://github.com/PepeuFBV/good-trip/compare/v1.4.2../v1.5.0) (2026-02-24)
 
 ### Features
 
 - **update:** add version management commands for listing, installing, and locking versions ([1dea0b3](https://github.com/PepeuFBV/good-trip/commit/1dea0b3b5689f7a1458cab64946ec8d5ec942692))
 
-## [1.4.2](https://github.com/PepeuFBV/good-trip/compare/v1.4.1...v1.4.2) (2026-02-24)
+## [1.4.2](https://github.com/PepeuFBV/good-trip/compare/v1.4.1../v1.4.2) (2026-02-24)
 
 ### Bug Fixes
 
@@ -91,7 +88,7 @@
 
 - **ssh:** add SSH key management commands and scripts ([6ba5758](https://github.com/PepeuFBV/good-trip/commit/6ba575868e5a68efe415f3488faab1f708a87feb))
 
-## [1.3.2](https://github.com/PepeuFBV/good-trip/compare/v1.3.1...v1.3.2) (2026-02-24)
+## [1.3.2](https://github.com/PepeuFBV/good-trip/compare/v1.3.1../v1.3.2) (2026-02-24)
 
 ### Bug Fixes
 
