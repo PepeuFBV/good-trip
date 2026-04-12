@@ -7,29 +7,21 @@
     "remoteUser": "vscode",
     "workspaceFolder": "/home/vscode/workspace",
     "workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/workspace,type=bind,consistency=cached",
-    // Mount the host's home directory read-only so zsh/p10k configs can be imported.
     "mounts": [
-        "source=${localEnv:HOME},target=/mnt/host-home,type=bind,consistency=cached,readonly"
+        "source=${localEnv:HOME},target=/mnt/host-home,type=bind,consistency=cached,readonly",
+        "source=${localEnv:HOME}/.codex,target=/home/vscode/.codex,type=bind,consistency=cached"
     ],
-    // Environment mirrors what the Docker Compose test services use
     "containerEnv": {
         "NO_CHSH": "1",
         "DEBIAN_FRONTEND": "noninteractive",
         "APT_LISTCHANGES_FRONTEND": "none",
         "ATUIN_NO_PROMPT": "1"
     },
-    // Extend PATH so user-local bins are always reachable in every terminal.
-    // /home/vscode/.local/bin is baked into PATH by the Dockerfile ENV, so
-    // ${containerEnv:PATH} already contains it; we add .atuin/bin on top.
-    // GOOD_TRIP_DIR points to the mounted workspace so version/symlinks work.
     "remoteEnv": {
         "PATH": "/home/vscode/.local/bin:/home/vscode/.atuin/bin:${containerEnv:PATH}",
         "GOOD_TRIP_DIR": "/home/vscode/workspace"
     },
-    // Run the installer in non-interactive mode after the container is created.
     "postCreateCommand": "cd /home/vscode/workspace && bash install.sh --yes",
-    // Fix workspace ownership first, then import zsh/p10k config from the host.
-    // Sequential (&&) is required: chown must complete before the script is readable.
     "postStartCommand": "sudo chown -R vscode:vscode /home/vscode/workspace && bash /home/vscode/workspace/bootstrap/import-host-zsh-config.sh",
     "customizations": {
         "vscode": {
