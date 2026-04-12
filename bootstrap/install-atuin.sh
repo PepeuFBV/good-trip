@@ -26,9 +26,18 @@ elif [[ -f /etc/arch-release ]]; then
   sudo pacman -S --noconfirm atuin
 else
   # Universal installer script (Rust-based binary)
-  curl -fsSL https://setup.atuin.sh | bash
+  # ATUIN_NO_PROMPT suppresses interactive sync/registration prompts
+  ATUIN_NO_PROMPT=1 curl -fsSL https://setup.atuin.sh | bash
 fi
 
-success "Atuin installed: $(atuin --version)"
+# The installer places the binary in ~/.atuin/bin which is not yet on PATH;
+# source its env file so we can call atuin in this same shell session.
+if [[ -f "$HOME/.atuin/bin/env" ]]; then
+  # shellcheck source=/dev/null
+  . "$HOME/.atuin/bin/env"
+fi
+
+atuin_bin="$(command -v atuin 2>/dev/null || echo "$HOME/.atuin/bin/atuin")"
+success "Atuin installed: $($atuin_bin --version 2>/dev/null || echo '(version unavailable)')"
 log "Atuin ZSH integration is configured in .zshrc."
 log "Optional: run 'atuin register' to enable sync across machines."
