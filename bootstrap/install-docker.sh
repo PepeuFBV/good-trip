@@ -15,6 +15,13 @@ success() { echo -e "${GREEN}[docker]${NC} ✓ $*"; }
 warn()    { echo -e "${YELLOW}[docker]${NC} ⚠ $*"; }
 has()     { command -v "$1" &>/dev/null; }
 
+# Return 0 if running inside a container (docker/containerd/podman)
+is_container() {
+  [[ -f "/.dockerenv" ]] && return 0
+  grep -qaE 'docker|kubepods|containerd|podman' /proc/1/cgroup 2>/dev/null && return 0
+  return 1
+}
+
 # ── Helpers ───────────────────────────────────────────────────────────────────
 _add_to_group() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -91,6 +98,12 @@ elif [[ -f /etc/arch-release ]]; then
   _add_to_group
 
 elif [[ -f /etc/debian_version ]]; then
+  if is_container; then
+    warn "Running inside a container — skipping Docker Engine installation."
+    warn "Install Docker on the host and use Docker-in-Docker or a socket mount if needed."
+    exit 0
+  fi
+
   log "Installing Docker Engine on Debian/Ubuntu..."
 
   # Remove any conflicting legacy packages
@@ -102,16 +115,20 @@ elif [[ -f /etc/debian_version ]]; then
   sudo apt-get update -qq
   sudo apt-get install -y ca-certificates curl
 
+  # Source os-release once to avoid escaping issues inside $() expansions
+  # shellcheck source=/dev/null
+  . /etc/os-release
+
   # Add Docker's official GPG key and repository
   sudo install -m 0755 -d /etc/apt/keyrings
-  sudo curl -fsSL "https://download.docker.com/linux/$(. /etc/os-release && echo \"$ID\")/gpg" \
+  sudo curl -fsSL "https://download.docker.com/linux/${ID}/gpg" \
     -o /etc/apt/keyrings/docker.asc
   sudo chmod a+r /etc/apt/keyrings/docker.asc
 
   echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] \
-    https://download.docker.com/linux/$(. /etc/os-release && echo \"$ID\") \
-    $(. /etc/os-release && echo "${VERSION_CODENAME}") stable" | \
+    https://download.docker.com/linux/${ID} \
+    ${VERSION_CODENAME} stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
   sudo apt-get update -qq

@@ -265,7 +265,7 @@ ensure_repo() {
 run_bootstrap() {
   local script="${GOOD_TRIP_DIR}/bootstrap/${1}"
   if [[ -f "$script" ]]; then
-    bash "$script"
+    bash "$script" || warn "Component script exited non-zero: ${1} (continuing)"
   else
     warn "Bootstrap script not found: ${1}"
   fi
@@ -283,22 +283,41 @@ install_cli() {
     return 1
   fi
 
-  # Copy into multiple well-known locations so committed images expose the
-  # binary in predictable places for checks.
-  local targets=("${GOOD_TRIP_BIN}" "/home/tester/.local/bin" "/root/.local/bin" "/usr/local/bin")
+  # Copy into well-known locations. Try user-owned dirs first (no sudo),
+  # then /usr/local/bin with sudo so the binary ends up on a PATH that is
+  # always available regardless of shell init files.
+  local user_targets=("${GOOD_TRIP_BIN}" "/home/tester/.local/bin" "/root/.local/bin")
+  local system_targets=("/usr/local/bin")
   local success_flag=0
 
-  for dir in "${targets[@]}"; do
+  for dir in "${user_targets[@]}"; do
     mkdir -p "$dir" 2>/dev/null || true
     local target="$dir/good-trip"
     rm -f "$target" 2>/dev/null || true
     if cp -f "$src" "$target" 2>/dev/null; then
       chmod +x "$target" 2>/dev/null || true
       success "CLI copied to ${target}"
-      log "CLI source: ${src} -> ${target} (copied)"
       success_flag=1
+    fi
+  done
+
+  for dir in "${system_targets[@]}"; do
+    local target="$dir/good-trip"
+    if has sudo; then
+      sudo rm -f "$target" 2>/dev/null || true
+      if sudo cp -f "$src" "$target" 2>/dev/null; then
+        sudo chmod +x "$target" 2>/dev/null || true
+        success "CLI copied to ${target}"
+        success_flag=1
+      fi
     else
-      warn "Could not copy CLI to ${target} (permission or missing dir)"
+      # Running as root
+      rm -f "$target" 2>/dev/null || true
+      if cp -f "$src" "$target" 2>/dev/null; then
+        chmod +x "$target" 2>/dev/null || true
+        success "CLI copied to ${target}"
+        success_flag=1
+      fi
     fi
   done
 
@@ -439,6 +458,7 @@ BANNER
   # Detect if running from a local clone or piped from curl
   if [[ -f "$(dirname "${BASH_SOURCE[0]}")/version.txt" ]]; then
     GOOD_TRIP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    export GOOD_TRIP_DIR
     log "Running from local repo: ${GOOD_TRIP_DIR}"
   else
     ensure_repo
