@@ -14,7 +14,7 @@ GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
 GOOD_TRIP_API="https://api.github.com/repos/PepeuFBV/good-trip/releases/latest"
 GOOD_TRIP_RELEASES_API="https://api.github.com/repos/PepeuFBV/good-trip/releases"
 LOCK_FILE="${GOOD_TRIP_DIR}/.version-lock"
-GT_LOG_LABEL="good-trip"
+export GT_LOG_LABEL="good-trip"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "${SCRIPT_DIR}/../lib/common.sh"

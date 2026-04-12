@@ -7,7 +7,7 @@
 # =============================================================================
 
 GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
-GT_LOG_LABEL="good-trip"
+export GT_LOG_LABEL="good-trip"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "${SCRIPT_DIR}/../lib/common.sh"

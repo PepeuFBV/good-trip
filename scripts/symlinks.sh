@@ -10,7 +10,7 @@ set -euo pipefail
 
 GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
 DRY_RUN=false
-GT_LOG_LABEL="symlinks"
+export GT_LOG_LABEL="symlinks"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "${SCRIPT_DIR}/../lib/common.sh"

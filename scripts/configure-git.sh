@@ -19,7 +19,7 @@ set -euo pipefail
 
 LOCAL_CONFIG_DIR="${HOME}/.config/good-trip"
 LOCAL_GIT_CONFIG="${LOCAL_CONFIG_DIR}/git.local"
-GT_LOG_LABEL="configure-git"
+export GT_LOG_LABEL="configure-git"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "${SCRIPT_DIR}/../lib/common.sh"

@@ -93,7 +93,7 @@ load_common() {
     return 1
   fi
 
-  GT_LOG_LABEL="good-trip"
+  export GT_LOG_LABEL="good-trip"
   # shellcheck source=lib/common.sh
   source "$common_sh"
 }

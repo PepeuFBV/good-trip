@@ -15,7 +15,7 @@ GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
 GOOD_TRIP_BIN="${HOME}/.local/bin/good-trip"
 LOG_FILE="${HOME}/.local/share/good-trip/install.log"
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/good-trip"
-GT_LOG_LABEL="good-trip"
+export GT_LOG_LABEL="good-trip"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=../lib/common.sh
 source "${SCRIPT_DIR}/../lib/common.sh"
