@@ -9,7 +9,7 @@
     "workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/workspace,type=bind,consistency=cached",
     "mounts": [
         "source=${localEnv:HOME},target=/mnt/host-home,type=bind,consistency=cached,readonly",
-        "source=${localEnv:HOME}/.codex,target=/home/vscode/.codex,type=bind,consistency=cached"
+        "source=good-trip-codex,target=/home/vscode/.codex,type=volume"
     ],
     "containerEnv": {
         "NO_CHSH": "1",
@@ -22,7 +22,7 @@
         "GOOD_TRIP_DIR": "/home/vscode/workspace"
     },
     "postCreateCommand": "cd /home/vscode/workspace && bash install.sh --yes",
-    "postStartCommand": "sudo chown -R vscode:vscode /home/vscode/workspace && bash /home/vscode/workspace/bootstrap/import-host-zsh-config.sh",
+    "postStartCommand": "sudo chown -R vscode:vscode /home/vscode/workspace && bash /home/vscode/workspace/bootstrap/import-host-zsh-config.sh && bash /home/vscode/workspace/bootstrap/import-host-codex.sh && bash /home/vscode/workspace/bootstrap/fix-devcontainer-git-config.sh",
     "customizations": {
         "vscode": {
             "settings": {
