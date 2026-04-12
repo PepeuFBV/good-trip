@@ -1,3 +1,11 @@
+## [1.12.2](https://github.com/PepeuFBV/good-trip/compare/v1.12.1...v1.12.2) (2026-04-12)
+
+
+### Bug Fixes
+
+* enable docker-in-docker in devcontainer ([ebb13f2](https://github.com/PepeuFBV/good-trip/commit/ebb13f2d3bc32510a23389de3e0ecc3c8187c21b))
+* exclude changelog.md from prettier ([7c66e8b](https://github.com/PepeuFBV/good-trip/commit/7c66e8b137ed29d8a690e3b7d63b4ae3b63e05f3))
+
 ## [1.12.1](https://github.com/PepeuFBV/good-trip/compare/v1.12.0...v1.12.1) (2026-04-12)
 
 
