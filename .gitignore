@@ -27,3 +27,6 @@ package-lock.json
 
 # Test logs
 tests/logs/
+
+# bats-core and helpers (fetched on demand by tests/setup-bats.sh)
+tests/bats/

@@ -122,3 +122,17 @@ jobs:
 
             - name: Run Prettier check
               run: npx prettier --check .
+
+    unit-tests:
+        name: Unit Tests (bats-core)
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Install git (required by bats setup)
+              run: sudo apt-get install -y git
+
+            - name: Run unit tests
+              run: bash tests/run_unit_tests.sh

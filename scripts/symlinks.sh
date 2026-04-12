@@ -58,10 +58,16 @@ link() {
 }
 
 # ── Symlink definitions ────────────────────────────────────────────────────────
-log "Applying good-trip symlinks${DRY_RUN:+ (dry-run)}..."
+main() {
+  log "Applying good-trip symlinks${DRY_RUN:+ (dry-run)}..."
 
-link "config/zsh/.zshrc"       "$HOME/.zshrc"
-link "config/git/config"       "$HOME/.gitconfig"
-link "config/aliases"          "$HOME/.shell/aliases"
+  link "config/zsh/.zshrc"       "$HOME/.zshrc"
+  link "config/git/config"       "$HOME/.gitconfig"
+  link "config/aliases"          "$HOME/.shell/aliases"
 
-log "Done."
+  log "Done."
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
