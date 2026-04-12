@@ -18,19 +18,10 @@
 # =============================================================================
 set -euo pipefail
 
-# ── Colours ───────────────────────────────────────────────────────────────────
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-NC='\033[0m'
-
-log()     { echo -e "${BLUE}[ssh-keygen]${NC} $*"; }
-success() { echo -e "${GREEN}[ssh-keygen]${NC} ✓ $*"; }
-warn()    { echo -e "${YELLOW}[ssh-keygen]${NC} ⚠ $*"; }
-error()   { echo -e "${RED}[ssh-keygen]${NC} ✗ $*" >&2; }
+GT_LOG_LABEL="ssh-keygen"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # ── Defaults ──────────────────────────────────────────────────────────────────
 COMMENT="${USER:-user}@$(hostname -s 2>/dev/null || echo host)"

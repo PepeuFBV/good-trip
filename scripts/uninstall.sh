@@ -15,19 +15,10 @@ GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
 GOOD_TRIP_BIN="${HOME}/.local/bin/good-trip"
 LOG_FILE="${HOME}/.local/share/good-trip/install.log"
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/good-trip"
-
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-BOLD='\033[1m'
-DIM='\033[2m'
-NC='\033[0m'
-
-log()     { echo -e "${BLUE}[good-trip]${NC} $*"; }
-success() { echo -e "${GREEN}[good-trip]${NC} ✓ $*"; }
-warn()    { echo -e "${YELLOW}[good-trip]${NC} ⚠ $*"; }
-error()   { echo -e "${RED}[good-trip]${NC} ✗ $*" >&2; }
+GT_LOG_LABEL="good-trip"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # ── Flags ──────────────────────────────────────────────────────────────────────
 YES=false
@@ -47,10 +38,7 @@ ask() {
   # ask <prompt> — returns 0 (yes) or 1 (no)
   # If --yes was passed, always return 0.
   $YES && return 0
-  local answer
-  read -r -p "$(echo -e "${YELLOW}[good-trip]${NC} $1 [y/N] ")" answer
-  answer="${answer:-n}"
-  [[ "${answer,,}" =~ ^(y|yes)$ ]]
+  confirm "$1" n
 }
 
 do_remove() {

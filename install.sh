@@ -25,31 +25,81 @@ REPO_URL="https://github.com/PepeuFBV/good-trip.git"
 GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
 GOOD_TRIP_BIN="${HOME}/.local/bin"
 LOG_FILE="${HOME}/.local/share/good-trip/install.log"
+INSTALL_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# ── Colours ───────────────────────────────────────────────────────────────────
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-DIM='\033[2m'
-NC='\033[0m'
+# install.sh also works via curl | bash before the repo exists locally, so it
+# keeps a tiny bootstrap helper set and upgrades to lib/common.sh when available.
+bootstrap_common() {
+  RED='\033[0;31m'
+  GREEN='\033[0;32m'
+  YELLOW='\033[1;33m'
+  BLUE='\033[0;34m'
+  CYAN='\033[0;36m'
+  BOLD='\033[1m'
+  DIM='\033[2m'
+  NC='\033[0m'
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
-log()     { echo -e "${BLUE}[good-trip]${NC} $*"; }
-success() { echo -e "${GREEN}[good-trip]${NC} ✓ $*"; }
-warn()    { echo -e "${YELLOW}[good-trip]${NC} ⚠ $*"; }
-error()   { echo -e "${RED}[good-trip]${NC} ✗ $*" >&2; }
-die()     { error "$*"; exit 1; }
-has()     { command -v "$1" &>/dev/null; }
+  log()     { echo -e "${BLUE}[good-trip]${NC} $*"; }
+  success() { echo -e "${GREEN}[good-trip]${NC} ✓ $*"; }
+  warn()    { echo -e "${YELLOW}[good-trip]${NC} ⚠ $*"; }
+  error()   { echo -e "${RED}[good-trip]${NC} ✗ $*" >&2; }
+  die()     { error "$*"; exit 1; }
+  has()     { command -v "$1" &>/dev/null; }
 
-step() {
-  echo ""
-  echo -e "${BOLD}${BLUE}──────────────────────────────────────────${NC}"
-  echo -e "${BOLD}${BLUE}  $*${NC}"
-  echo -e "${BOLD}${BLUE}──────────────────────────────────────────${NC}"
+  step() {
+    echo ""
+    echo -e "${BOLD}${BLUE}──────────────────────────────────────────${NC}"
+    echo -e "${BOLD}${BLUE}  $*${NC}"
+    echo -e "${BOLD}${BLUE}──────────────────────────────────────────${NC}"
+  }
+
+  confirm() {
+    local prompt="${1:?prompt is required}"
+    local default="${2:-y}"
+    local answer fallback suffix
+
+    case "${default,,}" in
+      y|yes)
+        fallback="y"
+        suffix="[Y/n]"
+        ;;
+      *)
+        fallback="n"
+        suffix="[y/N]"
+        ;;
+    esac
+
+    if [[ ! -t 0 ]]; then
+      [[ "$fallback" == "y" ]]
+      return
+    fi
+
+    read -r -p "$(echo -e "${YELLOW}[good-trip]${NC} ${prompt} ${suffix} ")" answer
+    answer="${answer:-$fallback}"
+    [[ "${answer,,}" =~ ^(y|yes)$ ]]
+  }
 }
+
+load_common() {
+  local common_sh=""
+
+  if [[ -f "${INSTALL_SCRIPT_DIR}/lib/common.sh" ]]; then
+    common_sh="${INSTALL_SCRIPT_DIR}/lib/common.sh"
+  elif [[ -f "${GOOD_TRIP_DIR}/lib/common.sh" ]]; then
+    common_sh="${GOOD_TRIP_DIR}/lib/common.sh"
+  fi
+
+  if [[ -z "$common_sh" ]]; then
+    return 1
+  fi
+
+  GT_LOG_LABEL="good-trip"
+  # shellcheck source=lib/common.sh
+  source "$common_sh"
+}
+
+bootstrap_common
+load_common || true
 
 # ── Component registry ────────────────────────────────────────────────────────
 # Format: "script_name|Label|Description|default(1=on,0=off)|required(1=always)"
@@ -362,9 +412,7 @@ print_summary() {
   echo -e "    ${GREEN}✓${NC}  Symlinks  ${DIM}(always)${NC}"
   echo -e "    ${GREEN}✓${NC}  good-trip CLI  ${DIM}(always)${NC}"
   echo ""
-  read -r -p "$(echo -e "${YELLOW}[good-trip]${NC} Proceed with installation? [Y/n] ")" answer
-  answer="${answer:-y}"
-  if [[ ! "${answer,,}" =~ ^(y|yes)$ ]]; then
+  if ! confirm "Proceed with installation?" y; then
     log "Installation cancelled."
     exit 0
   fi
@@ -456,13 +504,14 @@ BANNER
   ensure_pkg_manager
 
   # Detect if running from a local clone or piped from curl
-  if [[ -f "$(dirname "${BASH_SOURCE[0]}")/version.txt" ]]; then
-    GOOD_TRIP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  if [[ -f "${INSTALL_SCRIPT_DIR}/version.txt" ]]; then
+    GOOD_TRIP_DIR="${INSTALL_SCRIPT_DIR}"
     export GOOD_TRIP_DIR
     log "Running from local repo: ${GOOD_TRIP_DIR}"
   else
     ensure_repo
   fi
+  load_common || true
 
   # ── Run selected components ────────────────────────────────────────────────
   local installed=0

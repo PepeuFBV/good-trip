@@ -5,11 +5,10 @@
 # =============================================================================
 set -euo pipefail
 
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-log()     { echo -e "${BLUE}[oh-my-zsh]${NC} $*"; }
-success() { echo -e "${GREEN}[oh-my-zsh]${NC} ✓ $*"; }
+GT_LOG_LABEL="oh-my-zsh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 OMZ_DIR="${ZSH:-$HOME/.oh-my-zsh}"
 

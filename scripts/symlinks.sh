@@ -10,15 +10,10 @@ set -euo pipefail
 
 GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
 DRY_RUN=false
-
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
-log()     { echo -e "${BLUE}[symlinks]${NC} $*"; }
-success() { echo -e "${GREEN}[symlinks]${NC} ✓ $*"; }
-warn()    { echo -e "${YELLOW}[symlinks]${NC} ⚠ $*"; }
+GT_LOG_LABEL="symlinks"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 for arg in "$@"; do
   [[ "$arg" == "--dry-run" ]] && DRY_RUN=true
