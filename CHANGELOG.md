@@ -1,3 +1,11 @@
+## [1.12.1](https://github.com/PepeuFBV/good-trip/compare/v1.12.0...v1.12.1) (2026-04-12)
+
+
+### Bug Fixes
+
+* format changelog.md for prettier ([e6787dd](https://github.com/PepeuFBV/good-trip/commit/e6787dddc581b1626e475f9947fe25789e9dc252))
+* satisfy shellcheck warnings ([53c941a](https://github.com/PepeuFBV/good-trip/commit/53c941ab9078d6de746d60881126d3a2bd43a7fb))
+
 # [1.12.0](https://github.com/PepeuFBV/good-trip/compare/v1.11.1...v1.12.0) (2026-04-12)
 
 ### Bug Fixes
