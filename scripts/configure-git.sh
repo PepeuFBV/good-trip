@@ -19,21 +19,10 @@ set -euo pipefail
 
 LOCAL_CONFIG_DIR="${HOME}/.config/good-trip"
 LOCAL_GIT_CONFIG="${LOCAL_CONFIG_DIR}/git.local"
-
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-DIM='\033[2m'
-NC='\033[0m'
-
-log()     { echo -e "${BLUE}[configure-git]${NC} $*"; }
-success() { echo -e "${GREEN}[configure-git]${NC} ✓ $*"; }
-warn()    { echo -e "${YELLOW}[configure-git]${NC} ⚠ $*"; }
-error()   { echo -e "${RED}[configure-git]${NC} ✗ $*" >&2; }
-has()     { command -v "$1" &>/dev/null; }
+export GT_LOG_LABEL="configure-git"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # ── Argument parsing ──────────────────────────────────────────────────────────
 ARG_NAME=""

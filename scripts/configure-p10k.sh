@@ -5,15 +5,10 @@
 # =============================================================================
 set -euo pipefail
 
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-RED='\033[0;31m'
-NC='\033[0m'
-log()     { echo -e "${BLUE}[p10k]${NC} $*"; }
-success() { echo -e "${GREEN}[p10k]${NC} ✓ $*"; }
-warn()    { echo -e "${YELLOW}[p10k]${NC} ⚠ $*"; }
-error()   { echo -e "${RED}[p10k]${NC} ✗ $*" >&2; }
+export GT_LOG_LABEL="p10k"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 P10K_TARGET="$HOME/.p10k.zsh"
 

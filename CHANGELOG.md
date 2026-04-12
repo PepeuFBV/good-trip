@@ -1,21 +1,19 @@
 # [1.12.0](https://github.com/PepeuFBV/good-trip/compare/v1.11.1...v1.12.0) (2026-04-12)
 
-
 ### Bug Fixes
 
-* auto-install missing zip dependency for sdkman ([246544a](https://github.com/PepeuFBV/good-trip/commit/246544a2dc01ffc3443d7f31e89a4982cd9a57e5))
-* format files for prettier ([cac033d](https://github.com/PepeuFBV/good-trip/commit/cac033d4e55a89fed821e3cc7a119604e27a9da1))
-* skip docker engine install when running inside a container ([f3e2552](https://github.com/PepeuFBV/good-trip/commit/f3e25528f6ed3d7420a1d292d8d2d8856fb71d0d))
-* stabilize devcontainer git config ([fe6f733](https://github.com/PepeuFBV/good-trip/commit/fe6f733b55d709fa8e65fd224b0455a51b69db8b))
-* suppress interactive prompts and source path in atuin installer ([f45b03b](https://github.com/PepeuFBV/good-trip/commit/f45b03bd1a8af065e8fa8263bec2ddec826c16c9))
-* update devcontainer configuration to include .codex directory mount ([9f1da51](https://github.com/PepeuFBV/good-trip/commit/9f1da51fbfc7f600308a1ac20516117d79f88ba4))
-* use sudo fallback for cli install and export good_trip_dir ([77345cc](https://github.com/PepeuFBV/good-trip/commit/77345cc33898b7eaf988368dfb8f65f64157e642))
-
+- auto-install missing zip dependency for sdkman ([246544a](https://github.com/PepeuFBV/good-trip/commit/246544a2dc01ffc3443d7f31e89a4982cd9a57e5))
+- format files for prettier ([cac033d](https://github.com/PepeuFBV/good-trip/commit/cac033d4e55a89fed821e3cc7a119604e27a9da1))
+- skip docker engine install when running inside a container ([f3e2552](https://github.com/PepeuFBV/good-trip/commit/f3e25528f6ed3d7420a1d292d8d2d8856fb71d0d))
+- stabilize devcontainer git config ([fe6f733](https://github.com/PepeuFBV/good-trip/commit/fe6f733b55d709fa8e65fd224b0455a51b69db8b))
+- suppress interactive prompts and source path in atuin installer ([f45b03b](https://github.com/PepeuFBV/good-trip/commit/f45b03bd1a8af065e8fa8263bec2ddec826c16c9))
+- update devcontainer configuration to include .codex directory mount ([9f1da51](https://github.com/PepeuFBV/good-trip/commit/9f1da51fbfc7f600308a1ac20516117d79f88ba4))
+- use sudo fallback for cli install and export good_trip_dir ([77345cc](https://github.com/PepeuFBV/good-trip/commit/77345cc33898b7eaf988368dfb8f65f64157e642))
 
 ### Features
 
-* add devcontainer configuration ([9c8c3be](https://github.com/PepeuFBV/good-trip/commit/9c8c3beecc0f3a5ba00280121f6e7791cf2ae4e0))
-* import host zsh and p10k config in devcontainer ([27f5c35](https://github.com/PepeuFBV/good-trip/commit/27f5c35f533d4d7cf3b6e921d73e3b3f67da4edc))
+- add devcontainer configuration ([9c8c3be](https://github.com/PepeuFBV/good-trip/commit/9c8c3beecc0f3a5ba00280121f6e7791cf2ae4e0))
+- import host zsh and p10k config in devcontainer ([27f5c35](https://github.com/PepeuFBV/good-trip/commit/27f5c35f533d4d7cf3b6e921d73e3b3f67da4edc))
 
 ## [1.11.1](https://github.com/PepeuFBV/good-trip/compare/v1.11.0...v1.11.1) (2026-03-13)
 

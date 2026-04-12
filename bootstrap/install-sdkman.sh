@@ -5,12 +5,10 @@
 # =============================================================================
 set -euo pipefail
 
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-log()     { echo -e "${BLUE}[sdkman]${NC} $*"; }
-success() { echo -e "${GREEN}[sdkman]${NC} ✓ $*"; }
-has()     { command -v "$1" &>/dev/null; }
+export GT_LOG_LABEL="sdkman"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 SDKMAN_DIR="${SDKMAN_DIR:-$HOME/.sdkman}"
 # Set SDKMAN_DEFAULT_JAVA to a Java identifier (e.g. "21.0.3-tem", "17.0.9-tem")
@@ -39,7 +37,7 @@ if [[ -d "$SDKMAN_DIR" ]] && [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]]; then
 fi
 
 if ! has curl && ! has wget; then
-  echo "[sdkman] curl or wget required to install SDKMAN." >&2
+  error "curl or wget required to install SDKMAN."
   exit 1
 fi
 
@@ -50,7 +48,7 @@ if ! has zip; then
   elif [[ -f /etc/arch-release ]]; then
     sudo pacman -S --noconfirm zip
   else
-    echo "[sdkman] Please install zip manually before running SDKMAN." >&2
+    error "Please install zip manually before running SDKMAN."
     exit 1
   fi
 fi

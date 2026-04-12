@@ -7,15 +7,10 @@
 set -euo pipefail
 
 GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
-
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-log()     { echo -e "${BLUE}[git-gpg]${NC} $*"; }
-success() { echo -e "${GREEN}[git-gpg]${NC} ✓ $*"; }
-warn()    { echo -e "${YELLOW}[git-gpg]${NC} ⚠ $*"; }
-has()     { command -v "$1" &>/dev/null; }
+export GT_LOG_LABEL="git-gpg"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # ── Git presence check ────────────────────────────────────────────────────────
 if ! has git; then

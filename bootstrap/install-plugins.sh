@@ -5,11 +5,10 @@
 # =============================================================================
 set -euo pipefail
 
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-log()     { echo -e "${BLUE}[plugins]${NC} $*"; }
-success() { echo -e "${GREEN}[plugins]${NC} ✓ $*"; }
+export GT_LOG_LABEL="plugins"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 OMZ_CUSTOM="${ZSH:-$HOME/.oh-my-zsh}/custom/plugins"
 mkdir -p "$OMZ_CUSTOM"

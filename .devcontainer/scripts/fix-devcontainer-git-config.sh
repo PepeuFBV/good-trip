@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# bootstrap/fix-devcontainer-git-config.sh
+# .devcontainer/scripts/fix-devcontainer-git-config.sh
 # Keep the tracked repo git config out of the devcontainer's live ~/.gitconfig.
 #
 # The installer links ~/.gitconfig to config/git/config. VS Code's devcontainer

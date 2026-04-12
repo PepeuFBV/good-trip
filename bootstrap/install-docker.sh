@@ -6,21 +6,10 @@
 # =============================================================================
 set -euo pipefail
 
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-log()     { echo -e "${BLUE}[docker]${NC} $*"; }
-success() { echo -e "${GREEN}[docker]${NC} ✓ $*"; }
-warn()    { echo -e "${YELLOW}[docker]${NC} ⚠ $*"; }
-has()     { command -v "$1" &>/dev/null; }
-
-# Return 0 if running inside a container (docker/containerd/podman)
-is_container() {
-  [[ -f "/.dockerenv" ]] && return 0
-  grep -qaE 'docker|kubepods|containerd|podman' /proc/1/cgroup 2>/dev/null && return 0
-  return 1
-}
+export GT_LOG_LABEL="docker"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 _add_to_group() {

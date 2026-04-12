@@ -5,11 +5,10 @@
 # =============================================================================
 set -euo pipefail
 
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-log()     { echo -e "${BLUE}[nvm]${NC} $*"; }
-success() { echo -e "${GREEN}[nvm]${NC} ✓ $*"; }
+export GT_LOG_LABEL="nvm"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
 NVM_VERSION="${NVM_VERSION:-v0.40.1}"

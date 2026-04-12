@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# bootstrap/import-host-codex.sh
+# .devcontainer/scripts/import-host-codex.sh
 # One-time import of Codex CLI credentials, config, plugins, and cache from
 # the host machine into the devcontainer's named volume at /home/vscode/.codex.
 #

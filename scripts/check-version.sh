@@ -7,6 +7,11 @@
 # =============================================================================
 
 GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
+export GT_LOG_LABEL="good-trip"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
+
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/good-trip"
 # Notification filename kept for external readers; not used directly in this
 # script but used by the shell startup to detect pending updates.
@@ -14,6 +19,6 @@ CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/good-trip"
 NOTIFICATION_FILE="${CACHE_DIR}/update-available"
 
 # Only run if we have network tools
-command -v curl &>/dev/null || command -v wget &>/dev/null || exit 0
+has curl || has wget || exit 0
 
 exec bash "${GOOD_TRIP_DIR}/scripts/update.sh" --check --silent

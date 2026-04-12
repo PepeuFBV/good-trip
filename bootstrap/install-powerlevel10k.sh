@@ -5,11 +5,10 @@
 # =============================================================================
 set -euo pipefail
 
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-log()     { echo -e "${BLUE}[p10k]${NC} $*"; }
-success() { echo -e "${GREEN}[p10k]${NC} ✓ $*"; }
+export GT_LOG_LABEL="p10k"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 OMZ_THEMES="${ZSH:-$HOME/.oh-my-zsh}/custom/themes"
 P10K_DIR="${OMZ_THEMES}/powerlevel10k"

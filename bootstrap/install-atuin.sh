@@ -5,12 +5,10 @@
 # =============================================================================
 set -euo pipefail
 
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-log()     { echo -e "${BLUE}[atuin]${NC} $*"; }
-success() { echo -e "${GREEN}[atuin]${NC} ✓ $*"; }
-has()     { command -v "$1" &>/dev/null; }
+export GT_LOG_LABEL="atuin"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 if has atuin; then
   success "Atuin already installed: $(atuin --version)"

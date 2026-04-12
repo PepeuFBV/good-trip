@@ -14,19 +14,10 @@ GOOD_TRIP_DIR="${GOOD_TRIP_DIR:-$HOME/.good-trip}"
 GOOD_TRIP_API="https://api.github.com/repos/PepeuFBV/good-trip/releases/latest"
 GOOD_TRIP_RELEASES_API="https://api.github.com/repos/PepeuFBV/good-trip/releases"
 LOCK_FILE="${GOOD_TRIP_DIR}/.version-lock"
-
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-BOLD='\033[1m'
-NC='\033[0m'
-
-log()     { echo -e "${BLUE}[good-trip]${NC} $*"; }
-success() { echo -e "${GREEN}[good-trip]${NC} ✓ $*"; }
-warn()    { echo -e "${YELLOW}[good-trip]${NC} ⚠ $*"; }
-error()   { echo -e "${RED}[good-trip]${NC} ✗ $*" >&2; }
-has()     { command -v "$1" &>/dev/null; }
+export GT_LOG_LABEL="good-trip"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # ── Version helpers ────────────────────────────────────────────────────────────
 local_version() {
@@ -291,9 +282,8 @@ main() {
     local do_update=false
     if [[ "$mode" == "auto" ]]; then
       do_update=true
-    else
-      read -r -p "$(echo -e "${YELLOW}[good-trip]${NC} Apply update? [y/N] ")" answer
-      [[ "${answer,,}" =~ ^(y|yes)$ ]] && do_update=true
+    elif confirm "Apply update?" n; then
+      do_update=true
     fi
 
     if $do_update; then

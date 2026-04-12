@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# bootstrap/import-host-zsh-config.sh
+# .devcontainer/scripts/import-host-zsh-config.sh
 # Copy zsh / Powerlevel10k config files from the host machine into the
 # devcontainer if they are present.
 #

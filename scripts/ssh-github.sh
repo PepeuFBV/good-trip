@@ -17,20 +17,10 @@
 # =============================================================================
 set -euo pipefail
 
-# ── Colours ───────────────────────────────────────────────────────────────────
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-NC='\033[0m'
-
-log()     { echo -e "${BLUE}[ssh-github]${NC} $*"; }
-success() { echo -e "${GREEN}[ssh-github]${NC} ✓ $*"; }
-warn()    { echo -e "${YELLOW}[ssh-github]${NC} ⚠ $*"; }
-error()   { echo -e "${RED}[ssh-github]${NC} ✗ $*" >&2; }
-has()     { command -v "$1" &>/dev/null; }
+export GT_LOG_LABEL="ssh-github"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 # ── Defaults ──────────────────────────────────────────────────────────────────
 KEY_PATH="${HOME}/.ssh/id_ed25519.pub"
@@ -207,9 +197,7 @@ echo -e "  ${BOLD}File  :${NC} ${KEY_PATH}"
 echo ""
 
 if [[ -t 0 ]]; then
-  read -r -p "$(echo -e "${YELLOW}[ssh-github]${NC} Proceed? [Y/n] ")" answer
-  answer="${answer:-y}"
-  if [[ ! "${answer,,}" =~ ^(y|yes)$ ]]; then
+  if ! confirm "Proceed?" y; then
     log "Aborted."
     exit 0
   fi

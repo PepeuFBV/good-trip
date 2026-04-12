@@ -5,23 +5,10 @@
 # =============================================================================
 set -euo pipefail
 
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-log()     { echo -e "${BLUE}[zsh]${NC} $*"; }
-success() { echo -e "${GREEN}[zsh]${NC} ✓ $*"; }
-has()     { command -v "$1" &>/dev/null; }
-
-# Return 0 if running inside a container (docker/containerd/podman)
-is_container() {
-  if [[ -f "/.dockerenv" ]]; then
-    return 0
-  fi
-  if grep -qaE 'docker|kubepods|containerd|podman' /proc/1/cgroup 2>/dev/null; then
-    return 0
-  fi
-  return 1
-}
+export GT_LOG_LABEL="zsh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/common.sh
+source "${SCRIPT_DIR}/../lib/common.sh"
 
 if has zsh; then
   success "ZSH already installed: $(zsh --version)"
@@ -52,7 +39,7 @@ elif [[ -f /etc/debian_version ]]; then
 elif [[ -f /etc/fedora-release ]] || [[ -f /etc/redhat-release ]]; then
   sudo dnf install -y zsh
 else
-  echo "Please install ZSH manually for your OS." >&2
+  error "Please install ZSH manually for your OS."
   exit 1
 fi
 
