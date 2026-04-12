@@ -43,6 +43,18 @@ if ! has curl && ! has wget; then
   exit 1
 fi
 
+if ! has zip; then
+  log "zip is required by SDKMAN but is not installed. Installing..."
+  if [[ -f /etc/debian_version ]]; then
+    sudo apt-get install -y zip
+  elif [[ -f /etc/arch-release ]]; then
+    sudo pacman -S --noconfirm zip
+  else
+    echo "[sdkman] Please install zip manually before running SDKMAN." >&2
+    exit 1
+  fi
+fi
+
 log "Installing SDKMAN..."
 curl -fsSL "https://get.sdkman.io" | bash
 success "SDKMAN installed."
