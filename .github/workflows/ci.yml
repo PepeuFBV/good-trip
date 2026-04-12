@@ -136,3 +136,20 @@ jobs:
 
             - name: Run unit tests
               run: bash tests/run_unit_tests.sh
+
+    smoke-test:
+        name: Script Smoke Test (Linux)
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Smoke-test install.sh syntax and --help
+              # bash -n validates syntax; --help must exit 0 without installing anything
+              run: npm run test:ci
+
+            - name: Smoke-test CLI --help
+              run: |
+                  export GOOD_TRIP_DIR="$PWD"
+                  bin/good-trip --help >/dev/null
