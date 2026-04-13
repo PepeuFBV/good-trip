@@ -208,9 +208,12 @@ log "Sending request to GitHub API..."
 
 BODY="$(printf '{"title":"%s","key":"%s"}' "$TITLE" "$PUB_KEY")"
 
+_GT_TMPFILE="$(mktemp)"
+trap 'rm -f "$_GT_TMPFILE"' EXIT
+
 HTTP_RESPONSE="$(
   curl -sS \
-    -o /tmp/good-trip-gh-response.json \
+    -o "$_GT_TMPFILE" \
     -w "%{http_code}" \
     -X POST \
     -H "Accept: application/vnd.github+json" \
@@ -221,8 +224,7 @@ HTTP_RESPONSE="$(
     "https://api.github.com/user/keys"
 )"
 
-RESPONSE_BODY="$(cat /tmp/good-trip-gh-response.json 2>/dev/null || echo '{}')"
-rm -f /tmp/good-trip-gh-response.json
+RESPONSE_BODY="$(cat "$_GT_TMPFILE" 2>/dev/null || echo '{}')"
 
 # ── Handle response ───────────────────────────────────────────────────────────
 if [[ "$HTTP_RESPONSE" == "201" ]]; then
