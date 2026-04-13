@@ -1,0 +1,32 @@
+name: Feature Request
+description: Suggest a new feature or improvement
+labels: [enhancement]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Check [open issues](https://github.com/PepeuFBV/good-trip/issues) first to avoid duplicates.
+
+    - type: textarea
+      id: problem
+      attributes:
+          label: Problem or motivation
+          description: What are you trying to do that is currently difficult or impossible?
+      validations:
+          required: true
+
+    - type: textarea
+      id: solution
+      attributes:
+          label: Proposed solution
+          description: Describe the behaviour or change you'd like to see
+      validations:
+          required: true
+
+    - type: textarea
+      id: alternatives
+      attributes:
+          label: Alternatives considered
+          description: Any workarounds you tried or other approaches you considered
+      validations:
+          required: false
