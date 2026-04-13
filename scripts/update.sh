@@ -25,16 +25,27 @@ local_version() {
 }
 
 remote_version() {
+  local json
   if has curl; then
-    curl -fsSL "${GOOD_TRIP_API}" 2>/dev/null \
-      | grep '"tag_name"' \
-      | sed 's/.*"tag_name": *"v\?\([^"]*\)".*/\1/'
+    json="$(curl -fsSL "${GOOD_TRIP_API}" 2>/dev/null)"
   elif has wget; then
-    wget -qO- "${GOOD_TRIP_API}" 2>/dev/null \
+    json="$(wget -qO- "${GOOD_TRIP_API}" 2>/dev/null)"
+  else
+    echo ""; return
+  fi
+  [[ -z "$json" ]] && { echo ""; return; }
+  if has jq; then
+    local api_msg
+    api_msg="$(printf '%s' "$json" | jq -r '.message // empty' 2>/dev/null)"
+    if [[ -n "$api_msg" ]]; then
+      warn "GitHub API: ${api_msg}" >&2
+      echo ""; return
+    fi
+    printf '%s' "$json" | jq -r '.tag_name // empty' | sed 's/^v//'
+  else
+    printf '%s' "$json" \
       | grep '"tag_name"' \
       | sed 's/.*"tag_name": *"v\?\([^"]*\)".*/\1/'
-  else
-    echo ""
   fi
 }
 
@@ -106,16 +117,30 @@ cmd_list() {
   locked="$(locked_version)"
   [[ -n "$locked" ]] && locked="$(normalize_version "$locked")"
 
+  # Extract version list; detect API errors first when jq is available
+  local _versions_input
+  if has jq; then
+    local api_msg
+    api_msg="$(printf '%s' "$response" | jq -r '.message // empty' 2>/dev/null)"
+    if [[ -n "$api_msg" ]]; then
+      error "GitHub API error: ${api_msg}"
+      return 1
+    fi
+    _versions_input="$(printf '%s' "$response" | jq -r '.[].tag_name' | sed 's/^v//')"
+  else
+    _versions_input="$(printf '%s' "$response" | grep '"tag_name"' | sed 's/.*"tag_name": *"v\?\([^"]*\)".*/\1/')"
+  fi
+
   echo ""
   echo -e "  ${BOLD}Available versions:${NC}"
   echo ""
   while IFS= read -r ver; do
     local na tag=""
     na="$(normalize_version "$ver")"
-    [[ "$na" == "$current" ]]  && tag="${tag} ${GREEN}← installed${NC}"
-    [[ -n "$locked" && "$na" == "$locked" ]] && tag="${tag} ${YELLOW}🔒 locked${NC}"
+    [[ "$na" == "$current" ]]  && tag="${tag} ${GREEN}\u2190 installed${NC}"
+    [[ -n "$locked" && "$na" == "$locked" ]] && tag="${tag} ${YELLOW}\U0001F512 locked${NC}"
     echo -e "    ${ver}${tag}"
-  done < <(echo "$response" | grep '"tag_name"' | sed 's/.*"tag_name": *"v\?\([^"]*\)".*/\1/')
+  done <<< "$_versions_input"
   echo ""
 }
 
