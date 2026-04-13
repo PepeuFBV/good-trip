@@ -1,3 +1,13 @@
+## [1.12.4](https://github.com/PepeuFBV/good-trip/compare/v1.12.3...v1.12.4) (2026-04-13)
+
+
+### Bug Fixes
+
+* add jq parsing and api error detection in update ([fd9ea09](https://github.com/PepeuFBV/good-trip/commit/fd9ea0933a92a53b72f86951ccc866b7b22e566f))
+* harden json construction and response parsing in ssh-github ([c8c0781](https://github.com/PepeuFBV/good-trip/commit/c8c0781e6db50cc9b861fe4d06a6926f4a74f0ed))
+* implement --force in ssh-keygen and drop duplicate assignment ([038ee2e](https://github.com/PepeuFBV/good-trip/commit/038ee2e12382d69d71eaf845650a17770b431792))
+* use mktemp for api response temp file in ssh-github ([50a138d](https://github.com/PepeuFBV/good-trip/commit/50a138dc539d8ff4eac7b054f450ba51f0f8d8f5))
+
 ## [1.12.3](https://github.com/PepeuFBV/good-trip/compare/v1.12.2...v1.12.3) (2026-04-13)
 
 
