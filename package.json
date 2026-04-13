@@ -11,7 +11,7 @@
     "test:unit": "bash tests/run_unit_tests.sh"
   },
   "devDependencies": {
-    "husky": "^8.0.3",
+    "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.1"
   },
