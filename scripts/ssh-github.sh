@@ -47,7 +47,7 @@ while [[ $# -gt 0 ]]; do
       echo -e "${BOLD}Options:${NC}"
       echo "  --key <path>       Path to .pub file  (default: ~/.ssh/id_ed25519.pub)"
       echo "  --title <text>     Key title on GitHub (default: user@host — date)"
-      echo "  --token <token>    GitHub PAT          (or set \$GITHUB_TOKEN env var)"
+      echo "  --token <token>    GitHub PAT          (prefer \$GITHUB_TOKEN env var — avoids process list exposure)"
       echo "  --list             List keys already on your GitHub account"
       echo "  --dry-run          Show API payload without sending"
       echo ""
@@ -127,12 +127,10 @@ if $LIST_ONLY; then
     exit 1
   }
 
-  if ! has python3; then
-    # Fallback: raw JSON
-    echo "$RESPONSE"
-    exit 0
-  fi
-  if has python3; then
+  if has jq; then
+    printf '%s' "$RESPONSE" | jq -r \
+      '.[] | "  [\(.id)]  \(.title)\n         \(.key | .[0:60])...\n         Created: \(.created_at // \"?\")"'
+  elif has python3; then
     printf '%s' "$RESPONSE" | python3 -c '
 import sys, json
 keys = json.load(sys.stdin)
@@ -206,11 +204,20 @@ fi
 # ── Send the API request ──────────────────────────────────────────────────────
 log "Sending request to GitHub API..."
 
-BODY="$(printf '{"title":"%s","key":"%s"}' "$TITLE" "$PUB_KEY")"
+if has jq; then
+  BODY="$(jq -n --arg title "$TITLE" --arg key "$PUB_KEY" '{"title":$title,"key":$key}')"
+else
+  # Escape backslashes and double-quotes for safe JSON embedding
+  _json_escape() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'; }
+  BODY="$(printf '{"title":"%s","key":"%s"}' "$(_json_escape "$TITLE")" "$(_json_escape "$PUB_KEY")")"
+fi
+
+_GT_TMPFILE="$(mktemp)"
+trap 'rm -f "$_GT_TMPFILE"' EXIT
 
 HTTP_RESPONSE="$(
   curl -sS \
-    -o /tmp/good-trip-gh-response.json \
+    -o "$_GT_TMPFILE" \
     -w "%{http_code}" \
     -X POST \
     -H "Accept: application/vnd.github+json" \
@@ -221,12 +228,15 @@ HTTP_RESPONSE="$(
     "https://api.github.com/user/keys"
 )"
 
-RESPONSE_BODY="$(cat /tmp/good-trip-gh-response.json 2>/dev/null || echo '{}')"
-rm -f /tmp/good-trip-gh-response.json
+RESPONSE_BODY="$(cat "$_GT_TMPFILE" 2>/dev/null || echo '{}')"
 
 # ── Handle response ───────────────────────────────────────────────────────────
 if [[ "$HTTP_RESPONSE" == "201" ]]; then
-  KEY_ID="$(echo "$RESPONSE_BODY" | grep -o '"id":[0-9]*' | head -1 | cut -d: -f2)"
+  if has jq; then
+    KEY_ID="$(printf '%s' "$RESPONSE_BODY" | jq -r '.id // empty')"
+  else
+    KEY_ID="$(echo "$RESPONSE_BODY" | grep -o '"id":[0-9]*' | head -1 | cut -d: -f2)"
+  fi
   echo ""
   success "SSH key added to GitHub!"
   echo ""
@@ -237,7 +247,11 @@ if [[ "$HTTP_RESPONSE" == "201" ]]; then
   echo ""
 elif [[ "$HTTP_RESPONSE" == "422" ]]; then
   # Already exists or validation error
-  MSG="$(echo "$RESPONSE_BODY" | grep -o '"message":"[^"]*"' | head -1 | cut -d'"' -f4)"
+  if has jq; then
+    MSG="$(printf '%s' "$RESPONSE_BODY" | jq -r '.message // empty')"
+  else
+    MSG="$(echo "$RESPONSE_BODY" | grep -o '"message":"[^"]*"' | head -1 | cut -d'"' -f4)"
+  fi
   if echo "$MSG" | grep -qi "already"; then
     warn "This key is already registered on your GitHub account."
   else

@@ -27,7 +27,7 @@ source "${SCRIPT_DIR}/../lib/common.sh"
 COMMENT="${USER:-user}@$(hostname -s 2>/dev/null || echo host)"
 KEY_NAME=""
 ADD_TO_AUTHORIZED=false
-DRY_RUN=false
+FORCE=false
 DRY_RUN=false
 
 # ── Argument parsing ──────────────────────────────────────────────────────────
@@ -36,6 +36,7 @@ while [[ $# -gt 0 ]]; do
     --comment)       COMMENT="$2";        shift 2 ;;
     --name)          KEY_NAME="$2";       shift 2 ;;
     --authorized-keys) ADD_TO_AUTHORIZED=true; shift ;;
+    --force)         FORCE=true;           shift ;;
     --dry-run)       DRY_RUN=true;        shift ;;
     --help|-h)
       echo ""
@@ -48,6 +49,7 @@ while [[ $# -gt 0 ]]; do
       echo "  --comment <text>     Key comment, e.g. your email  (default: user@hostname)"
       echo "  --name <filename>    Key file name without path     (required)"
       echo "  --authorized-keys    Also append pubkey to ~/.ssh/authorized_keys"
+      echo "  --force              Overwrite existing key without prompting"
       echo "  --dry-run            Show what would happen without writing files"
       echo ""
       echo -e "${BOLD}Examples:${NC}"
@@ -78,8 +80,19 @@ if [[ -z "$KEY_NAME" ]]; then
 fi
 
 if [[ -f "$KEY_PATH" ]] || [[ -f "$PUB_PATH" ]]; then
-  error "Key already exists: ${KEY_PATH} or ${PUB_PATH}. Choose a different --name."
-  exit 1
+  if $DRY_RUN; then
+    if $FORCE; then
+      warn "Key exists and would be overwritten: ${KEY_PATH}"
+    else
+      warn "Key exists (use --force to overwrite): ${KEY_PATH}"
+    fi
+  elif $FORCE; then
+    warn "Overwriting existing key: ${KEY_PATH}"
+    rm -f "$KEY_PATH" "$PUB_PATH"
+  else
+    error "Key already exists: ${KEY_PATH} or ${PUB_PATH}. Use --force to overwrite or choose a different --name."
+    exit 1
+  fi
 fi
 
 # ── Dry-run mode ──────────────────────────────────────────────────────────────
@@ -88,6 +101,7 @@ if $DRY_RUN; then
   log "Would create key  : ${KEY_PATH}"
   log "Would create pub  : ${PUB_PATH}"
   log "Comment           : ${COMMENT}"
+  $FORCE           && log "Force overwrite   : enabled"
   $ADD_TO_AUTHORIZED && log "Would append to   : ${AUTH_KEYS}"
   exit 0
 fi
