@@ -56,9 +56,11 @@ bootstrap_common() {
   confirm() {
     local prompt="${1:?prompt is required}"
     local default="${2:-y}"
-    local answer fallback suffix
+    local answer fallback suffix default_lc
 
-    case "${default,,}" in
+    # tr[:upper:] is used instead of ${var,,} for bash 3.2 (macOS) compatibility
+    default_lc="$(printf '%s' "$default" | tr '[:upper:]' '[:lower:]')"
+    case "$default_lc" in
       y|yes)
         fallback="y"
         suffix="[Y/n]"
@@ -76,7 +78,7 @@ bootstrap_common() {
 
     read -r -p "$(echo -e "${YELLOW}[good-trip]${NC} ${prompt} ${suffix} ")" answer
     answer="${answer:-$fallback}"
-    [[ "${answer,,}" =~ ^(y|yes)$ ]]
+    [[ "$(printf '%s' "$answer" | tr '[:upper:]' '[:lower:]')" =~ ^(y|yes)$ ]]
   }
 }
 

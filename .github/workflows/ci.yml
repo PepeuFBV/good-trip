@@ -11,6 +11,12 @@ on:
         branches:
             - main
 
+# Cancel in-progress runs for the same ref to avoid duplicate job sets
+# when a push and a pull_request event both fire for the same branch.
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: true
+
 jobs:
     lint-commits:
         name: Lint Commit Messages
@@ -135,4 +141,61 @@ jobs:
               run: sudo apt-get install -y git
 
             - name: Run unit tests
+              run: bash tests/run_unit_tests.sh
+
+    smoke-test:
+        name: Script Smoke Test (Linux)
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Smoke-test install.sh syntax and --help
+              # bash -n validates syntax; --help must exit 0 without installing anything
+              run: npm run test:ci
+
+            - name: Smoke-test CLI --help
+              run: |
+                  export GOOD_TRIP_DIR="$PWD"
+                  bin/good-trip --help >/dev/null
+
+    macos-validate:
+        name: macOS Validation
+        runs-on: macos-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Install git (required by bats setup on macOS)
+              run: brew install git
+
+            - name: Print macOS and bash versions
+              run: |
+                  sw_vers
+                  bash --version | head -1
+
+            - name: Syntax-check all shell scripts (macOS bash)
+              # Catches any constructs that differ between GNU bash on Linux
+              # and the bash version shipped by GitHub's macOS runner
+              run: |
+                  find . -name "*.sh" \
+                    -not -path "./.git/*" \
+                    -not -path "./node_modules/*" | \
+                    while IFS= read -r f; do
+                      bash -n "$f" || { echo "SYNTAX ERROR: $f"; exit 1; }
+                    done
+                  bash -n bin/good-trip
+
+            - name: Smoke-test install.sh --help on macOS
+              run: bash -n install.sh && ./install.sh --help >/dev/null
+
+            - name: Smoke-test CLI --help on macOS
+              run: |
+                  export GOOD_TRIP_DIR="$PWD"
+                  bin/good-trip --help >/dev/null
+
+            - name: Run unit tests on macOS (bats-core)
+              # Validates behavioral correctness under macOS bash and BSD userland
               run: bash tests/run_unit_tests.sh

@@ -53,12 +53,22 @@ normalize_version() {
 }
 
 version_lt() {
-  # Compare two versions after normalizing to MAJOR.MINOR.PATCH
+  # Compare two versions after normalizing to MAJOR.MINOR.PATCH.
+  # Uses pure bash arithmetic — portable on Linux and macOS (no sort -V).
   local a b na nb
   a="$1"; b="$2"
   na="$(normalize_version "$a")"
   nb="$(normalize_version "$b")"
-  [[ "$na" != "$nb" ]] && [[ "$(printf '%s\n' "$na" "$nb" | sort -V | head -1)" == "$na" ]]
+  [[ "$na" == "$nb" ]] && return 1
+  local IFS=.
+  read -r -a va <<< "$na"
+  read -r -a vb <<< "$nb"
+  local i
+  for i in 0 1 2; do
+    if (( ${va[$i]:-0} < ${vb[$i]:-0} )); then return 0; fi
+    if (( ${va[$i]:-0} > ${vb[$i]:-0} )); then return 1; fi
+  done
+  return 1
 }
 
 # ── Update stamp (used by daily auto-check) ────────────────────────────────────

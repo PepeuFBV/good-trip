@@ -131,18 +131,16 @@ cmd_status() {
 
   log "Symlinks:"
 
-  local -A targets=(
-    [~/.zshrc]="${GOOD_TRIP_DIR}/config/zsh/.zshrc"
-    [~/.gitconfig]="${GOOD_TRIP_DIR}/config/git/config"
-    [~/.shell/aliases]="${GOOD_TRIP_DIR}/config/aliases"
-  )
-
-  for link in "${!targets[@]}"; do
-    local expanded="${link/#\~/$HOME}"
-    if [[ -L "$expanded" ]]; then
-      echo -e "    ${GREEN}✓${NC} ${link} → $(readlink "$expanded")"
+  # Single indexed array — avoids local -A (bash 4+ only) for bash 3.2 (macOS) compatibility
+  local _paths _i _link _display
+  _paths=( "$HOME/.zshrc" "$HOME/.gitconfig" "$HOME/.shell/aliases" )
+  for _i in 0 1 2; do
+    _link="${_paths[$_i]}"
+    _display="${_link/$HOME/\~}"
+    if [[ -L "$_link" ]]; then
+      echo -e "    ${GREEN}✓${NC} ${_display} → $(readlink "$_link")"
     else
-      echo -e "    ${RED}✗${NC} ${link} (not linked)"
+      echo -e "    ${RED}✗${NC} ${_display} (not linked)"
     fi
   done
 }
