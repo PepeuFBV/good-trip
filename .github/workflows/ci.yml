@@ -162,6 +162,9 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
+            - name: Install git (required by bats setup on macOS)
+              run: brew install git
+
             - name: Print macOS and bash versions
               run: |
                   sw_vers
