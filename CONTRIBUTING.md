@@ -26,15 +26,15 @@
    ```
 6. Commit following [Conventional Commits](https://www.conventionalcommits.org/):
 
-   | Prefix                           | When to use                        | Version bump |
-   | -------------------------------- | ---------------------------------- | ------------ |
-   | `feat:`                          | New feature or behaviour           | minor        |
-   | `fix:`                           | Bug fix                            | patch        |
-   | `docs:`                          | Documentation only                 | —            |
-   | `refactor:`                      | Code cleanup, no behaviour change  | —            |
-   | `ci:`                            | CI/CD changes                      | —            |
-   | `chore:`                         | Maintenance tasks                  | —            |
-   | `feat!:` / `BREAKING CHANGE:`    | Breaking change                    | **major**    |
+   | Prefix                        | When to use                       | Version bump |
+   | ----------------------------- | --------------------------------- | ------------ |
+   | `feat:`                       | New feature or behaviour          | minor        |
+   | `fix:`                        | Bug fix                           | patch        |
+   | `docs:`                       | Documentation only                | —            |
+   | `refactor:`                   | Code cleanup, no behaviour change | —            |
+   | `ci:`                         | CI/CD changes                     | —            |
+   | `chore:`                      | Maintenance tasks                 | —            |
+   | `feat!:` / `BREAKING CHANGE:` | Breaking change                   | **major**    |
 
    Commit messages are enforced by commitlint on every PR.
 
