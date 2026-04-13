@@ -25,7 +25,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
               with:
                   fetch-depth: 0
 
@@ -53,7 +53,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Install shellcheck
               run: sudo apt-get install -y shellcheck
@@ -73,7 +73,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Check required files exist
               run: |
@@ -116,7 +116,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Set up Node.js
               uses: actions/setup-node@v6
@@ -135,7 +135,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Install git (required by bats setup)
               run: sudo apt-get install -y git
@@ -149,7 +149,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Smoke-test install.sh syntax and --help
               # bash -n validates syntax; --help must exit 0 without installing anything
@@ -166,7 +166,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Install git (required by bats setup on macOS)
               run: brew install git
