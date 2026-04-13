@@ -1,3 +1,11 @@
+## [1.12.3](https://github.com/PepeuFBV/good-trip/compare/v1.12.2...v1.12.3) (2026-04-13)
+
+
+### Bug Fixes
+
+* portable semver comparison without sort -V ([d04b9a3](https://github.com/PepeuFBV/good-trip/commit/d04b9a363e953c68293dd52697c65e31183af71d))
+* replace bash 4+ constructs for macOS bash 3.2 compatibility ([461ba54](https://github.com/PepeuFBV/good-trip/commit/461ba54569f6b9b16afba9441a1a27ffa50738f0))
+
 ## [1.12.2](https://github.com/PepeuFBV/good-trip/compare/v1.12.1...v1.12.2) (2026-04-12)
 
 
